@@ -1,5 +1,5 @@
 from tkinter import *
-from PIL import ImageTK, Image
+#from PIL import ImageTK, Image
 
 #====================( Start )====================
 root = Tk()
@@ -43,7 +43,7 @@ variable: Variable which stores the value
 value: Value to be stored
 '''
 r = IntVar()
-r.get()
+#r.get()
 
 
 
