@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import askopenfilenames
 #from PIL import ImageTK, Image
 
 #====================( Class )====================
@@ -9,15 +9,12 @@ class HomeTrain():
         #====================( Variables )====================
         #====================( Frames )====================
         self.frame_main = LabelFrame(home, text="Training settings", padx = 10, pady = 10)
-        #self.frame_ud = LabelFrame(self.frame_main)
         #====================( Widgets )====================
         #Label
         lab_1 = Label(self.frame_main, text="Training/Test")
         lab_2 = Label(self.frame_main, text="Upload dataset")
         lab_3 = Label(self.frame_main, text="Prediction file name")
         lab_4 = Label(self.frame_main, text="Prediction file path")
-        #lab_2_1 = Label(self.frame_ud, text="Name", width = 50, anchor=W, bg="light grey")
-        #lab_2_2 = Label(self.frame_ud, text="Remove", width = 20, anchor=W, bg="light grey")
 
         #Button
         '''
@@ -28,7 +25,7 @@ class HomeTrain():
         pady: Performs padding on y-axis (*.px)
         command: Function to execute
         '''
-        but_ud_remove = Button(self.frame_main, text="Remove selected files")
+        but_ud_remove = Button(self.frame_main, text="Remove selected files", command=lambda: self.remove())
         but_ud_upload = Button(self.frame_main, text="Upload", command=lambda: self.upload())
 
         #Entry
@@ -42,12 +39,15 @@ class HomeTrain():
         fg: foreground colour
         borderwidth: the border's width size
         '''
-        self.ent_tt = Entry(self.frame_main, width=10) #Training/Test
+        self.ent_tt = Entry(self.frame_main, width=5) #Training/Test
         self.ent_pfn = Entry(self.frame_main, width=20)#Prediction file name
         self.ent_pfp = Entry(self.frame_main, width=20)#Prediction file path
 
         #Listbox
-        self.lb_upload = Listbox(self.frame_main, width=40)
+        self.lb_upload = Listbox(self.frame_main, width=40, selectmode="multiple")
+        sb_upload  = Scrollbar(self.frame_main)
+        self.lb_upload.config(yscrollcommand = sb_upload.set)
+        sb_upload.config(command = self.lb_upload.yview)
 
         #====================( Display )====================
         '''
@@ -61,10 +61,8 @@ class HomeTrain():
         #Row 1
         lab_2.grid(sticky="W", row = 1, column = 1)
         #Row 2
-        #self.frame_ud.grid(sticky="W", row = 2, column = 1, padx=10, pady=10)
-        #lab_2_1.grid(sticky="W", row = 0, column = 1)
-        #lab_2_2.grid(sticky="W", row = 0, column = 2)
         self.lb_upload.grid(row = 2, column = 1, columnspan = 2)
+        sb_upload.grid(sticky=N+S+W, row = 2, column = 3)
         #Row 3
         but_ud_remove.grid(row = 3, column = 1, pady = 10)
         but_ud_upload.grid(row = 3, column = 2, pady = 10)
@@ -77,9 +75,27 @@ class HomeTrain():
         self.frame_main.grid(row = 0, column = 0)
 
     def upload(self):
-        filename = askopenfilename()
-        test = Label(self.frame_ud, text=filename)
-        test.grid(sticky="W", row=2, column=1)
+        filenames = askopenfilenames()
+        for f in filenames:
+            self.lb_upload.insert(self.lb_upload.size()+1, f)
+
+    def remove(self):
+        sel = self.lb_upload.curselection()
+        for i in reversed(sel):
+            self.lb_upload.delete(i)
+        print(self.get())
+
+    def get(self):
+        filenames = []
+        for i in range(self.lb_upload.size()):
+            filenames.append(self.lb_upload.get(i))
+        return {
+            "tt": self.ent_tt.get(),
+            "uploads" : filenames,
+            "pfn": self.ent_pfn.get(),
+            "pfp": self.ent_pfp.get()
+        }
+
 
 #====================( Main )====================
 if __name__=='__main__':
