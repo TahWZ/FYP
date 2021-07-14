@@ -70,7 +70,7 @@ class HomePred():
         #--------------------( Tab 2 )--------------------
         #--------------------( Others )--------------------
         self.tabControl.grid(row = 0, column = 1)
-        self.frame_main.grid(row = 0, column = 1)
+        self.frame_main.pack(side=LEFT, fill=BOTH, pady = 10)
 
     def get(self):
         base = []

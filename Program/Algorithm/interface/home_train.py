@@ -71,7 +71,7 @@ class HomeTrain():
         lab_4.grid(sticky="W", row = 5, column = 1)
         self.ent_pfp.grid(sticky="W", row = 5, column = 2)
         #End
-        self.frame_main.grid(row = 0, column = 0)
+        self.frame_main.pack(side = RIGHT, fill=BOTH, pady = 10)
 
     def upload(self):
         filenames = askopenfilenames()

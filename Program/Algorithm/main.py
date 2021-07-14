@@ -1,14 +1,19 @@
+import sys
 from tkinter import *
+sys.path.append('interface')
+from home_train import HomeTrain
+from home_pred import HomePred
 #from PIL import ImageTK, Image
 
 #====================( Start )====================
 root = Tk()
-
+#====================( Frames )====================
+frame_1 = Frame(root)
+frame_2 = Frame(root)
+frame_3 = Frame(root)
 #====================( Widgets )====================
-
 #Label
-myLabel1 = Label(root, text="Hello World!")
-myLabel2 = Label(root, text="Hello World!")
+lab_1 = Label(frame_1, text="Logo", bg = "black", fg = "white", width = 80, height = 10)
 
 #Button
 '''
@@ -19,48 +24,28 @@ padx: Performs padding on x-axis (*.px)
 pady: Performs padding on y-axis (*.px)
 command: Function to execute
 '''
-myButton = Button(root, text="Click Me!")
-b_quit = Button(root, text="Exit", command=root.quit)
-
-#Entry
-'''
-@Additional functions
-.insert(,): To insert text in the input field
-.get(): To retrieve the input value
-@Attributes
-width: The width size
-bg: background colour
-fg: foreground colour
-borderwidth: the border's width size
-'''
-e = Entry(root, width=50)
-
-#Radio
-'''
-@Attributes
-text: The displayed text
-variable: Variable which stores the value
-value: Value to be stored
-'''
-r = IntVar()
-#r.get()
-
-
+but_start = Button(frame_3, text="Start", width = 10)
+but_quit = Button(frame_3, text="Exit", width = 10, command=root.quit)
 
 #====================( Functions )====================
-
-#====================( Frames )====================
-frame = LabelFrame(root, text="This is my Frame...", padx=5, pady=5)
-frame.pack(padx=10, pady=10)
-
 #====================( Display )====================
 '''
 @Functions
 .pack(padx, pady)
 .grid(row, column, columnspan)
 '''
-myLabel1.grid(row = 0, column = 1)
-myLabel2.grid(row = 0, column = 2)
+#Row 0
+lab_1.pack(fill=BOTH)
+#Row 1 (Windows)
+home_pred = HomePred(frame_2)
+home_train = HomeTrain(frame_2)
+#Row 2
+but_start.pack(side = LEFT)
+but_quit.pack(side = RIGHT)
+#End
+frame_1.pack()
+frame_2.pack()
+frame_3.pack()
 
 #====================( Main )====================
 root.mainloop()
