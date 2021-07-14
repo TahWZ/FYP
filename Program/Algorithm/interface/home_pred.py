@@ -72,7 +72,7 @@ class HomePred():
         self.tabControl.grid(row = 0, column = 1)
         self.frame_main.pack(side=LEFT, fill=BOTH, pady = 10)
 
-    def get(self):
+    def result(self):
         base = []
         for b in self.base:
             base.append(b.get())

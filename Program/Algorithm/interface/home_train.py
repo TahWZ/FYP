@@ -83,7 +83,7 @@ class HomeTrain():
         for i in reversed(sel):
             self.lb_upload.delete(i)
 
-    def get(self):
+    def result(self):
         filenames = []
         for i in range(self.lb_upload.size()):
             filenames.append(self.lb_upload.get(i))

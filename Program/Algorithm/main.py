@@ -48,8 +48,7 @@ class Home:
         frame_3.pack()
 
     def get(self):
-        return [self.home_pred.get(),self.home_train.get()] 
-
+        return [self.home_pred.result(),self.home_train.result()] 
 
 #====================( Main )====================
 root = Tk()
