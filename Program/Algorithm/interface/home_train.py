@@ -1,12 +1,10 @@
 from tkinter import *
 from tkinter.filedialog import askopenfilenames
-#from PIL import ImageTK, Image
 
 #====================( Class )====================
 class HomeTrain():
     #====================( Functions )====================
     def __init__(self, home):
-        #====================( Variables )====================
         #====================( Frames )====================
         self.frame_main = LabelFrame(home, text="Training settings", padx = 10, pady = 10)
         #====================( Widgets )====================
@@ -72,6 +70,7 @@ class HomeTrain():
         #Row 5
         lab_4.grid(sticky="W", row = 5, column = 1)
         self.ent_pfp.grid(sticky="W", row = 5, column = 2)
+        #End
         self.frame_main.grid(row = 0, column = 0)
 
     def upload(self):
@@ -83,7 +82,6 @@ class HomeTrain():
         sel = self.lb_upload.curselection()
         for i in reversed(sel):
             self.lb_upload.delete(i)
-        print(self.get())
 
     def get(self):
         filenames = []
