@@ -8,6 +8,11 @@ main_train = LabelFrame(root, text="Training settings", padx = 10, pady = 10)
 
 #====================( Variables )====================
 
+#====================( Functions )====================
+def upload():
+    filename = askopenfilename()
+    test = Label(frame_ud, text=filename)
+    test.grid(sticky="W", row=2, column=1)
 
 #====================( Frames )====================
 frame_ud = LabelFrame(main_train)
@@ -31,7 +36,7 @@ pady: Performs padding on y-axis (*.px)
 command: Function to execute
 '''
 but_ud_remove = Button(main_train, text="Remove selected files")
-but_ud_upload = Button(main_train, text="Upload", command=askopenfilename)
+but_ud_upload = Button(main_train, text="Upload", command=lambda: upload())
 
 #Entry
 '''
@@ -47,8 +52,6 @@ borderwidth: the border's width size
 ent_tt = Entry(main_train, width=10) #Training/Test
 ent_pfn = Entry(main_train, width=20)#Prediction file name
 ent_pfp = Entry(main_train, width=20)#Prediction file path
-#====================( Functions )====================
-#def train_get():
 
 #====================( Display )====================
 '''
