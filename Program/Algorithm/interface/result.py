@@ -17,7 +17,7 @@ class Result():
         self.tabControl.add(tab_table, text='Table View')
         self.tabControl.add(tab_chart, text='Chart View')
         #====================( Frames )====================
-        frame_table = Frame(tab_table)
+        self.frame_table = Frame(tab_table)
         #====================( Widgets )====================
         #Button
         '''
@@ -36,15 +36,43 @@ class Result():
         .grid(row, column, columnspan)
         '''
         but_cv_chart.pack()
+        self.table()
+        self.frame_table.pack()
         self.tabControl.grid(row = 0, column = 1)
         self.frame_main.pack(fill=BOTH, pady = 10)
 
+    def table(self):
+        lst = [['DT','lR','MLP','NB'],[90,20,21,22],[60,70,100,89]]
+        
+        for j in range(len(lst[0])):
+            entry = Entry(self.frame_table, bg='light gray')
+            entry.grid(row=0, column=j)
+            entry.insert(END,lst[0][j])
+        for i in range(1,len(lst)):
+            for j in range(len(lst[0])):
+                entry = Entry(self.frame_table)
+                entry.grid(row=i, column=j)
+                entry.insert(END,lst[i][j])
+        
+
     def chart(self):
-        a = ['a','b','c','d']
-        b = [[90,20],20,21,22]
-        ypos = np.arange(len(a))
-        plt.xticks(ypos, b)
-        plt.bar(ypos,a)
+        name = ['DT','lR','MLP','NB']
+        temp1 = [90,20,21,22]
+        temp2 = [60,70,100,89]
+        ypos = np.arange(len(name))
+        #plt.legend(labels=["a","b"])
+        plt.subplot(1,2,1) #row, column, position
+        plt.xticks(ypos, name)
+        plt.title('AUC-score')
+        plt.xlabel('Model')
+        plt.ylabel('Score')
+        plt.bar(ypos,temp1,color='blue')
+        plt.subplot(1,2,2) #row, column, position
+        plt.xticks(ypos, name)
+        plt.title('F1-score')
+        plt.xlabel('Model')
+        plt.ylabel('Score')
+        plt.bar(ypos,temp2,color='orange')
         plt.show()
 
 #====================( Main )====================
