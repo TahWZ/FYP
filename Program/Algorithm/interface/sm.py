@@ -19,21 +19,32 @@ class SM():
         #====================( Tabs )====================
         self.get_tabs(res[1]["uploads"])
         #====================( Widgets )====================
+        #Button
+        '''
+        @Attributes
+        text: The displayed text
+        state: DISABLED/ENABLED
+        padx: Performs padding on x-axis (*.px)
+        pady: Performs padding on y-axis (*.px)
+        command: Function to execute
+        '''
+        but_sm_run = Button(self.frame_main, text="Run")#, command=lambda: self.remove())
         #====================( Display )====================
         '''
         @Functions
         .pack(padx, pady)
         .grid(row, column, columnspan)
         '''
-        self.tabControl.grid(row = 0, column = 1)
+        self.tabControl.pack()
         self.frame_main.pack(fill=BOTH, pady = 10)
+        but_sm_run.pack()
 
     def get_tabs(self,uploads):
         i = 0
         #--------------------( Loop )--------------------
         for f in uploads:
             tab = ttk.Frame(self.tabControl)
-            self.tabControl.add(tab, text='Temp')
+            self.tabControl.add(tab, text='temp (Dataset)')
             #Frame
             frame = Frame(tab)
             #Top
@@ -51,7 +62,7 @@ class SM():
         j = 1
         for m in metrics:
             #Label
-            lab = Label(frame, text="Decision Tree")
+            lab = Label(frame, text="temp (Metric)")
             #Checkbutton
             cb = Checkbutton(frame, variable=self.datasets[i][j-1])
             lab.grid(sticky="W", row = j, column = 1)
