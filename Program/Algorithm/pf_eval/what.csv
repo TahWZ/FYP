@@ -1,0 +1,15 @@
+
+No filter
+Model Name,Complement Naive Bayes,Decision Tree,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
+AUC,1.0,0.75,0.75,0.78,0.88,0.94,0.84,0.88
+F1 Score,88.89,75.0,75.0,75.0,57.14,88.89,75.0,88.89
+
+CFS
+Model Name,Complement Naive Bayes,Decision Tree,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
+AUC,1.0,0.75,1.0,0.88,0.84,1.0,0.88,0.94
+F1 Score,88.89,80.0,80.0,88.89,88.89,88.89,80.0,88.89
+
+RFE
+Model Name,Complement Naive Bayes,Decision Tree,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
+AUC,1.0,0.88,1.0,0.88,0.84,0.94,0.88,0.94
+F1 Score,88.89,88.89,80.0,88.89,88.89,88.89,88.89,88.89

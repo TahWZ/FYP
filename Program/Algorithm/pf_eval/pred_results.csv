@@ -1,5 +1,33 @@
-AUC
-Dataset,Algo 1,Algo 2,Algo 3
-CM1,95%,92%,87%
-KC1,Trying,To,Test
-KC4,90%,80%,70%
+
+No filter
+Model Name,AUC,F1 Score
+Complement Naive Bayes,1.0,88.89
+Decision Tree,0.88,88.89
+Logistic regression,0.75,75.0
+Multi Layer Perceptron,0.78,66.67
+Naive Bayes,0.88,75.0
+Random Forest,0.94,88.89
+Rotation Forest,0.88,88.89
+Voting,0.88,88.89
+
+CFS
+Model Name,AUC,F1 Score
+Complement Naive Bayes,0.88,88.89
+Decision Tree,0.78,66.67
+Logistic regression,0.94,88.89
+Multi Layer Perceptron,0.88,88.89
+Naive Bayes,0.88,88.89
+Random Forest,0.84,88.89
+Rotation Forest,0.94,88.89
+Voting,0.81,88.89
+
+RFE
+Model Name,AUC,F1 Score
+Complement Naive Bayes,0.75,75.0
+Decision Tree,0.94,88.89
+Logistic regression,1.0,88.89
+Multi Layer Perceptron,0.84,88.89
+Naive Bayes,0.88,88.89
+Random Forest,0.75,80.0
+Rotation Forest,0.84,88.89
+Voting,0.94,88.89
