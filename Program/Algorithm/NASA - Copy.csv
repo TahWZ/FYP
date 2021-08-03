@@ -1,0 +1,17 @@
+AUC,,,,,,,,
+Model name,Complement Naive Bayes,Decision Tree,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
+KC4.arff(All),0.744,0.738,0.784,0.804,0.744,0.776,0.74,0.772
+KC4.arff(CFS),0.75,0.74,0.786,0.782,0.764,0.76,0.71,0.78
+KC4.arff(RFE),0.756,0.754,0.78,0.806,0.762,0.76,0.736,0.772
+MC2.arff(All),0.406,0.668,0.672,0.674,0.452,0.626,0.59,0.582
+MC2.arff(CFS),0.878,0.642,0.928,0.928,0.724,0.762,0.664,0.868
+MC2.arff(RFE),0.822,0.762,0.798,0.916,0.786,0.78,0.616,0.824
+,,,,,,,,
+F1 Score,,,,,,,,
+Model name,Complement Naive Bayes,Decision Tree,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
+KC4.arff(All),65.098,68.302,68.372,69.134,62.612,66.112,67.838,70.556
+KC4.arff(CFS),64.546,67.838,69.086,69.532,60.044,65.078,64.572,68.822
+KC4.arff(RFE),64,70.59,67.064,70.462,62.612,67.88,67.838,70.556
+MC2.arff(All),21.272,51.612,55.89,43.152,21.268,37.388,37.774,27.978
+MC2.arff(CFS),63.334,51,73.812,69.81,46,56.552,51.62,52.286
+MC2.arff(RFE),58.064,60.888,64.632,74.294,45.272,58.552,44.786,49.676
