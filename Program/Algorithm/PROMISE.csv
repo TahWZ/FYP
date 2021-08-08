@@ -1,39 +1,36 @@
 AUC
 Model name,Complement Naive Bayes,Decision Tree,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
-cm1.arff(All),0.59,0.7,0.72,0.43,0.72,0.74,0.7,0.76
-cm1.arff(CFS),0.71,0.72,0.69,0.53,0.76,0.76,0.79,0.75
-cm1.arff(RFE),0.71,0.67,0.78,0.68,0.71,0.73,0.73,0.77
-cm1.arff(FPR)
-cm1.arff(FNR)
+cm1.arff(All),0.59,0.725,0.675,0.422,0.721,0.716,0.656,0.721
+cm1.arff(CFS),0.702,0.709,0.734,0.655,0.741,0.765,0.718,0.758
+cm1.arff(RFE),0.711,0.741,0.778,0.747,0.698,0.72,0.742,0.751
+jm1.arff(All),0.509,0.555,0.627,0.624,0.588,0.619,0.567,0.617
+jm1.arff(CFS),0.482,0.572,0.625,0.611,0.609,0.627,0.585,0.627
+jm1.arff(RFE),0.557,0.545,0.622,0.595,0.599,0.596,0.556,0.616
 
 F1 Score
 Model name,Complement Naive Bayes,Decision Tree,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
-cm1.arff(All),0.17,0.25,0.25,0.03,0.21,0.2,0.25,0.21
-
-cm1.arff(CFS),0.23,0.26,0.23,0.09,0.22,0.25,0.27,0.22
-
-cm1.arff(RFE),0.21,0.22,0.27,0.24,0.2,0.25,0.23,0.22
-
-cm1.arff(FPR)
-
-cm1.arff(FNR)
+cm1.arff(All),0.179,0.258,0.226,0.084,0.196,0.207,0.196,0.191
+cm1.arff(CFS),0.225,0.255,0.24,0.214,0.216,0.231,0.26,0.236
+cm1.arff(RFE),0.205,0.265,0.298,0.262,0.214,0.253,0.254,0.209
+jm1.arff(All),0.222,0.263,0.278,0.288,0.266,0.267,0.266,0.279
+jm1.arff(CFS),0.22,0.274,0.279,0.281,0.274,0.278,0.276,0.282
+jm1.arff(RFE),0.242,0.256,0.293,0.278,0.267,0.271,0.256,0.281
 
 False Positive Rate
 Model name,Complement Naive Bayes,Decision Tree,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
-cm1.arff(All),0.18%,0.2%,0.16%,0.06%,0.25%,0.14%,0.22%,0.24%
-
-cm1.arff(CFS),0.18%,0.22%,0.1%,0.14%,0.22%,0.2%,0.25%,0.16%
-
-cm1.arff(RFE),0.27%,0.24%,0.14%,0.2%,0.25%,0.22%,0.22%,0.22%
-
-cm1.arff(FPR)
-
-cm1.arff(FNR)
+cm1.arff(All),0.179,0.258,0.226,0.084,0.196,0.207,0.196,0.191
+cm1.arff(CFS),0.225,0.255,0.24,0.214,0.216,0.231,0.26,0.236
+cm1.arff(RFE),0.205,0.265,0.298,0.262,0.214,0.253,0.254,0.209
+jm1.arff(All),0.222,0.263,0.278,0.288,0.266,0.267,0.266,0.279
+jm1.arff(CFS),0.22,0.274,0.279,0.281,0.274,0.278,0.276,0.282
+jm1.arff(RFE),0.242,0.256,0.293,0.278,0.267,0.271,0.256,0.281
 
 False Negative Rate
 Model name,Complement Naive Bayes,Decision Tree,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
-cm1.arff(All),0.18%,0.2%,0.16%,0.06%,0.25%,0.14%,0.22%,0.24%
-cm1.arff(CFS),0.18%,0.22%,0.1%,0.14%,0.22%,0.2%,0.25%,0.16%
-cm1.arff(RFE),0.27%,0.24%,0.14%,0.2%,0.25%,0.22%,0.22%,0.22%
-cm1.arff(FPR)
-cm1.arff(FNR)
+cm1.arff(All),0.179,0.258,0.226,0.084,0.196,0.207,0.196,0.191
+cm1.arff(CFS),0.225,0.255,0.24,0.214,0.216,0.231,0.26,0.236
+cm1.arff(RFE),0.205,0.265,0.298,0.262,0.214,0.253,0.254,0.209
+jm1.arff(All),0.222,0.263,0.278,0.288,0.266,0.267,0.266,0.279
+jm1.arff(CFS),0.22,0.274,0.279,0.281,0.274,0.278,0.276,0.282
+jm1.arff(RFE),0.242,0.256,0.293,0.278,0.267,0.271,0.256,0.281
+
