@@ -14,7 +14,7 @@ class Home:
         frame_3 = Frame(root)
         #====================( Widgets )====================
         #Label
-        lab_1 = Label(frame_1, text="Logo", bg = "black", fg = "white", width = 80, height = 10)
+        #lab_1 = Label(frame_1, text="Logo", bg = "black", fg = "white", width = 80, height = 10)
 
         #Button
         '''
@@ -34,7 +34,7 @@ class Home:
         .grid(row, column, columnspan)
         '''
         #Row 0
-        lab_1.pack(fill=BOTH)
+        #lab_1.pack(fill=BOTH)
         #Row 1 (Windows)
         self.home_pred = HomePred(frame_2)
         self.home_train = HomeTrain(frame_2)
