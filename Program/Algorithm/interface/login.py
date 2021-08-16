@@ -1,8 +1,12 @@
 import sys
 from tkinter import *
+from tkinter import messagebox
 #from home_train import HomeTrain
 #from home_pred import HomePred
 #from PIL import ImageTK, Image
+
+#====================( Users )====================
+users = [['hi','hi']]
 
 #====================( Class )====================
 class Login:
@@ -24,6 +28,8 @@ class Login:
         pady: Performs padding on y-axis (*.px)
         command: Function to execute
         '''
+        but_login = Button(self.frame_main, text="Login", width = 10, command=lambda: self.login())
+        but_quit = Button(self.frame_main, text="Exit", width = 10, command=lambda: root.destroy())#root.quit)
 
         #Entry
         '''
@@ -37,10 +43,8 @@ class Login:
         borderwidth: the border's width size
         '''
         self.ent_usr = Entry(self.frame_main, width=20) #Username
-        self.ent_pwd = Entry(self.frame_main, width=20) #Password
+        self.ent_pwd = Entry(self.frame_main, width=20, show="*") #Password
         
-        but_login = Button(self.frame_main, text="Login", width = 10, command=lambda: self.get())
-        but_quit = Button(self.frame_main, text="Exit", width = 10, command=lambda: root.quit)
         #====================( Display )====================
         '''
         @Functions
@@ -50,7 +54,7 @@ class Login:
         #Row 0-1 (Input fields)
         lab_1.grid(row=0, column=1) #Username
         self.ent_usr.grid(row=0, column = 2)
-        lab_1.grid(row=0, column=1) #Password
+        lab_2.grid(row=1, column=1) #Password
         self.ent_pwd.grid(row=1, column = 2, pady = 10)
         #Row 2
         but_login.grid(row=2, column = 1)
@@ -58,8 +62,14 @@ class Login:
         #End
         self.frame_main.pack()
 
-    def get(self):
-        return [self.home_pred.result(),self.home_train.result()] 
+    def login(self):
+        if [self.ent_usr.get(),self.ent_pwd.get()] not in users:
+            messagebox.showerror("An error occured","The username or password is incorrect")
+        return {
+            'username':self.ent_usr.get(),
+            'password':self.ent_pwd.get()
+        }
+            
 
 #====================( Main )====================
 if __name__=='__main__':
