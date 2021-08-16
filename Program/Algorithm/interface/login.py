@@ -1,6 +1,7 @@
 import sys
 from tkinter import *
 from tkinter import messagebox
+import main
 #from home_train import HomeTrain
 #from home_pred import HomePred
 #from PIL import ImageTK, Image
@@ -12,6 +13,8 @@ users = [['hi','hi']]
 class Login:
     #====================( Functions )====================
     def __init__(self, root):
+        #================( Root Reference )================
+        self.root = root
         #====================( Frames )====================
         self.frame_main = LabelFrame(root, text="Login page", padx = 10, pady = 10)
         #====================( Widgets )====================
@@ -29,7 +32,7 @@ class Login:
         command: Function to execute
         '''
         but_login = Button(self.frame_main, text="Login", width = 10, command=lambda: self.login())
-        but_quit = Button(self.frame_main, text="Exit", width = 10, command=lambda: root.destroy())#root.quit)
+        but_quit = Button(self.frame_main, text="Exit", width = 10, command=root.quit)
 
         #Entry
         '''
@@ -65,6 +68,9 @@ class Login:
     def login(self):
         if [self.ent_usr.get(),self.ent_pwd.get()] not in users:
             messagebox.showerror("An error occured","The username or password is incorrect")
+        else:
+            self.frame_main.destroy()
+            main.Main(self.root)
         return {
             'username':self.ent_usr.get(),
             'password':self.ent_pwd.get()

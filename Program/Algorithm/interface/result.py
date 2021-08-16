@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+import home
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -7,8 +8,11 @@ import matplotlib.pyplot as plt
 class Result():
     #====================( Functions )====================
     def __init__(self, result, res):
+        #================( Root Reference )================
+        self.root = result
         #====================( Main Frame )====================
         self.frame_main = LabelFrame(result, text="Result", padx = 10, pady = 10)
+        self.backbutton = Frame(result)
         #====================( Notebook )====================
         self.tabControl = ttk.Notebook(self.frame_main)
         #====================( Tabs )====================
@@ -29,6 +33,7 @@ class Result():
         command: Function to execute
         '''
         but_cv_chart = Button(tab_chart, text="Show chart", command=lambda: self.chart())
+        button_goback = Button(self.backbutton, text = "Go Back", width = 10, command = lambda: self.back())
         #====================( Display )====================
         '''
         @Functions
@@ -36,6 +41,8 @@ class Result():
         .grid(row, column, columnspan)
         '''
         but_cv_chart.pack()
+        button_goback.pack()
+        self.backbutton.pack()
         self.table()
         self.frame_table.pack()
         self.tabControl.grid(row = 0, column = 1)
@@ -74,6 +81,11 @@ class Result():
         plt.ylabel('Score')
         plt.bar(ypos,temp2,color='orange')
         plt.show()
+    
+    def back(self):
+        self.frame_main.destroy()
+        self.backbutton.destroy()
+        home.Home(self.root)
 
 #====================( Main )====================
 if __name__=='__main__':

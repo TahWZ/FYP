@@ -1,6 +1,7 @@
 import sys
 from tkinter import *
 # sys.path.append('interface')
+import login
 from home import Home
 from about import About
 from report import Report
@@ -13,6 +14,8 @@ class Main:
     def __init__(self, root):
         self.pred = 0
         self.train = 0
+        #================( Root Reference )================
+        self.root = root
         #====================( Frames )====================
         self.frame_main = Frame(root)
         #====================( Notebook )====================
@@ -21,6 +24,7 @@ class Main:
         self.get_tabs()
         #====================( Widgets )====================
         #Label
+        button_logout = Button(self.frame_main, text="Logout", width = 10,command=lambda: self.logout())
         lab_1 = Label(self.frame_main, text="Logo", bg = "black", fg = "white", width = 80, height = 10)
         #====================( Display )====================
         '''
@@ -30,7 +34,8 @@ class Main:
         '''
         #Row 0
         lab_1.pack(fill=BOTH)
-
+        #Row 1
+        button_logout.pack()
         #End
         self.tabControl.pack()
         self.frame_main.pack()
@@ -60,6 +65,11 @@ class Main:
         frame = Frame(tab)
         self.pred, self.train = Home(frame).get_results()
         return self.pred,self.train
+    
+    def logout(self):
+        self.frame_main.destroy()
+        login.Login(self.root)
+    
 
 #====================( Main )====================
 if __name__=='__main__':
