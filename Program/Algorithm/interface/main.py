@@ -3,6 +3,7 @@ from tkinter import *
 #sys.path.append('interface')
 from home import Home
 from about import About
+from report import Report
 from tkinter import ttk
 #from PIL import ImageTK, Image
 
@@ -32,15 +33,21 @@ class Main:
         self.frame_main.pack()
 
     def get_tabs(self):
+        #Tab 1
         tab = ttk.Frame(self.tabControl)
         self.tabControl.add(tab, text='Main algorithm')
-        #Tab 1
         frame = Frame(tab)
         Home(frame)
         frame.pack()
+        #Tab 2
+        tab = ttk.Frame(self.tabControl)
+        self.tabControl.add(tab, text='Reports')
+        frame = Frame(tab)
+        Report(frame)
+        frame.pack()
+        #Tab 3
         tab = ttk.Frame(self.tabControl)
         self.tabControl.add(tab, text='About us')
-        #Tab 2
         frame = Frame(tab)
         About(frame)
         frame.pack(expand=True)
