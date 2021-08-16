@@ -1,7 +1,6 @@
 import sys
 from tkinter import *
-from tkinter import messagebox
-from report_pdf import PDF
+from tkPDFViewer import tkPDFViewer as pdf
 #from home_train import HomeTrain
 #from home_pred import HomePred
 #from PIL import ImageTK, Image
@@ -10,15 +9,18 @@ from report_pdf import PDF
 users = [['hi','hi']]
 
 #====================( Class )====================
-class Report:
+class PDF:
     #====================( Functions )====================
     def __init__(self, root):
         #====================( Frames )====================
-        self.frame_main = LabelFrame(root, text="Reports", padx = 10, pady = 10)
+        self.frame_main = LabelFrame(root, text="Report view", padx = 10, pady = 10)
         #====================( Widgets )====================
         #Label
-        lab_1 = Label(self.frame_main, text="PDF1")
-        lab_2 = Label(self.frame_main, text="PDF2")
+        lab_1 = Label(self.frame_main, text="Report: Test")
+
+        #PDF
+        v1 = pdf.ShowPdf()
+        v2 = v1.pdf_view(self.frame_main, pdf_location = r"test.pdf",width = 70, height = 50)
 
         #Button
         '''
@@ -29,8 +31,7 @@ class Report:
         pady: Performs padding on y-axis (*.px)
         command: Function to execute
         '''
-        but_view1 = Button(self.frame_main, text="View", width = 10, command=lambda: self.view())
-        but_view2 = Button(self.frame_main, text="View", width = 10, command=lambda: self.view())
+        but_quit = Button(self.frame_main, text="Exit", width = 10, command=lambda: root.destroy())
         
         #====================( Display )====================
         '''
@@ -38,22 +39,16 @@ class Report:
         .pack(padx, pady)
         .grid(row, column, columnspan)
         '''
-        #PDF files
-        lab_1.grid(row=0, column=1) #Username
-        but_view1.grid(row=0, column = 2)
-        lab_2.grid(row=1, column=1) #Password
-        but_view2.grid(row=1, column = 2, pady = 10)
+        #Row 0-1 (Input fields)
+        v2.pack()
+        #Row 2
+        but_quit.pack()
         #End
         self.frame_main.pack()
-
-    def view(self):
-        view = Frame(self.frame_main)
-        PDF(view)
-        view.grid(row=3, column= 1, columnspan = 2)
             
 
 #====================( Main )====================
 if __name__=='__main__':
     root = Tk()
-    Report(root)
+    PDF(root)
     root.mainloop()
