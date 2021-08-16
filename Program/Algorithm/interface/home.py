@@ -6,8 +6,12 @@ from home_pred import HomePred
 
 #====================( Class )====================
 class Home:
+
     #====================( Functions )====================
     def __init__(self, root):
+        self.pred = 0
+        self.train = 0
+
         #====================( Frames )====================
         frame_1 = Frame(root)
         frame_2 = Frame(root)
@@ -47,7 +51,11 @@ class Home:
         frame_3.pack()
 
     def get(self):
-        return [self.home_pred.result(),self.home_train.result()] 
+        self.pred,self.train = self.home_pred.result(),self.home_train.result()
+        # return [self.home_pred.result(),self.home_train.result()]
+
+    def get_results(self):
+        return self.pred,self.train
 
 #====================( Main )====================
 if __name__=='__main__':
