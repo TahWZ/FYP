@@ -11,8 +11,6 @@ class Home:
 
     #====================( Functions )====================
     def __init__(self, root):
-        self.pred = 0
-        self.train = 0
         #================( Root Reference )================
         self.root = root
         #====================( Frames )====================
@@ -52,19 +50,20 @@ class Home:
         self.frame_1.pack()
         self.frame_2.pack()
         self.frame_3.pack()
-
-    def get(self):
-        self.pred,self.train = self.home_pred.result(),self.home_train.result()
-        # return [self.home_pred.result(),self.home_train.result()]
-
-    def get_results(self):
-        return self.pred,self.train
     
     def start(self):
+        # fs.SM(self.root,[0,
+        #     {
+        #         "uploads" : ['D:/Computer Science/Python/test1.py','D:/Computer Science/Python/test2.py']
+        #     }]
+        #     ,
+        # self.home_pred.result(),
+        # self.home_train.result()
+        # )
+        fs.SM(self.root,[0,{}],self.home_pred.result(),self.home_train.result())
         self.frame_1.destroy()
         self.frame_2.destroy()
         self.frame_3.destroy()
-        fs.SM(self.root,[0,{"uploads" : ['D:/Computer Science/Python/test1.py','D:/Computer Science/Python/test2.py']}])
 
 
 #====================( Main )====================

@@ -1,10 +1,9 @@
 import sys
 from tkinter import *
-# sys.path.append('interface')
-import login
-from home import Home
-from about import About
-from report import Report
+sys.path.append('interface')
+from interface.home import Home
+from interface.about import About
+from interface.report import Report
 from tkinter import ttk
 #from PIL import ImageTK, Image
 
@@ -12,8 +11,6 @@ from tkinter import ttk
 class Main:
     #====================( Functions )====================
     def __init__(self, root):
-        self.pred = 0
-        self.train = 0
         #================( Root Reference )================
         self.root = root
         #====================( Frames )====================
@@ -61,20 +58,20 @@ class Main:
         frame.pack(expand=True)
 
     def get_results(self):
-        tab = ttk.Frame(self.tabControl)
-        frame = Frame(tab)
-        self.pred, self.train = Home(frame).get_results()
-        return self.pred,self.train
+        pred_data,train_data = self.home_frame.get_results()
+        return pred_data,train_data
     
     def logout(self):
+        from interface.login import Login
         self.frame_main.destroy()
-        login.Login(self.root)
-    
+        Login(self.root)
 
 #====================( Main )====================
 if __name__=='__main__':
     root = Tk()
-    Main(root)
+    main_root = Main(root)
     root.title('Prediction software')
     root.mainloop()
+    
+    
 

@@ -5,11 +5,20 @@ import result as r
 #====================( Class )====================
 class SM():
     #====================( Functions )====================
-    def __init__(self, fs, res):
+    def __init__(self, fs, res, pred_res, train_res):
         #====================( Variables )====================
         self.root = fs
         self.datasets = []
-        for _ in range(len(res[1]["uploads"])):
+        self.pred_res = pred_res
+        self.train_res = train_res
+        print(pred_res)
+        print(train_res)
+        # for _ in range(len(res[1]["uploads"])):
+        #     selections = []
+        #     for _ in range(3): #Three feature selection methods
+        #         selections.append(IntVar())
+        #     self.datasets.append(selections)
+        for _ in range(len(train_res["uploads"])):
             selections = []
             for _ in range(3): #Three feature selection methods
                 selections.append(IntVar())
@@ -19,7 +28,8 @@ class SM():
         #====================( Notebook )====================
         self.tabControl = ttk.Notebook(self.frame_main)
         #====================( Tabs )====================
-        self.get_tabs(res[1]["uploads"])
+        # self.get_tabs(res[1]["uploads"])
+        self.get_tabs(train_res['uploads'])
         #====================( Widgets )====================
         #Button
         '''
@@ -86,7 +96,8 @@ class SM():
         print(result)
         #Just for transition purposes, will be changed later on
         self.frame_main.destroy()
-        r.Result(self.root,[])
+        print(self.result)
+        r.Result(self.root,[],self.pred_res,self.train_res)
         return {
             "result" : self.result
     }

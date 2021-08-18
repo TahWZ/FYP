@@ -1,6 +1,8 @@
 import sys
 from tkinter import *
 from tkinter import messagebox
+import sys
+sys.path.append("..") # Adds higher directory to python modules path.
 import main
 #from home_train import HomeTrain
 #from home_pred import HomePred

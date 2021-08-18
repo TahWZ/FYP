@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 #====================( Class )====================
 class Result():
     #====================( Functions )====================
-    def __init__(self, result, res):
+    def __init__(self, result, fs_res, pred_res, train_res):
         #================( Root Reference )================
         self.root = result
         #====================( Main Frame )====================
