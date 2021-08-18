@@ -1,19 +1,20 @@
 from tkinter import *
 from tkinter import ttk
+from pathlib import Path 
 
 #====================( Class )====================
 class SM():
     #====================( Functions )====================
-    def __init__(self, sm, res):
+    def __init__(self, fs, res):
         #====================( Variables )====================
         self.datasets = []
         for _ in range(len(res[1]["uploads"])):
-            dataset = []
-            for _ in range(5):
-                dataset.append(IntVar())
-            self.datasets.append(dataset)
+            selections = []
+            for _ in range(3): #Three feature selection methods
+                selections.append(IntVar())
+            self.datasets.append(selections)
         #====================( Main Frame )====================
-        self.frame_main = LabelFrame(sm, text="Software metric selection menu", padx = 10, pady = 10)
+        self.frame_main = LabelFrame(fs, text="Feature selection menu", padx = 10, pady = 10)
         #====================( Notebook )====================
         self.tabControl = ttk.Notebook(self.frame_main)
         #====================( Tabs )====================
@@ -28,7 +29,7 @@ class SM():
         pady: Performs padding on y-axis (*.px)
         command: Function to execute
         '''
-        but_sm_run = Button(self.frame_main, text="Run")#, command=lambda: self.remove())
+        but_sm_run = Button(self.frame_main, text="Run", command = lambda: self.result())#, command=lambda: self.remove())
         #====================( Display )====================
         '''
         @Functions
@@ -44,25 +45,25 @@ class SM():
         #--------------------( Loop )--------------------
         for f in uploads:
             tab = ttk.Frame(self.tabControl)
-            self.tabControl.add(tab, text='temp (Dataset)')
+            self.tabControl.add(tab, text=Path(f).name)
             #Frame
             frame = Frame(tab)
             #Top
-            top_1 = Label(frame, text="Software Metric", width = 20, bg = "light grey", anchor = W)
+            top_1 = Label(frame, text="Feature selection", width = 20, bg = "light grey", anchor = W)
             top_1.grid(sticky="W", row = 0, column = 1)
             top_2 = Label(frame, text="Select", bg = "light grey", anchor = W)
             top_2.grid(sticky="W", row = 0, column = 2)
             #Metric
-            self.get_metrics(frame, i, self.read_file(f))
+            self.get_metrics(frame, i)
             #End
             frame.grid(row = 0, column = 1)
             i += 1
     
-    def get_metrics(self, frame, i, metrics):
+    def get_metrics(self, frame, i):
         j = 1
-        for m in metrics:
+        for fs in ['All','CFS','RFS']:
             #Label
-            lab = Label(frame, text="temp (Metric)")
+            lab = Label(frame, text=fs)
             #Checkbutton
             cb = Checkbutton(frame, variable=self.datasets[i][j-1])
             lab.grid(sticky="W", row = j, column = 1)
@@ -73,16 +74,22 @@ class SM():
         return [1,2,3,4,5]
 
     def result(self):
-        base = []
-        for b in self.base:
-            base.append(b.get())
+        result = []
+        for i,selections in enumerate(self.datasets):
+            result.append([])
+            for s in selections:
+                if s.get() == 1:
+                    result[i].append(True)
+                else:
+                    result[i].append(False)
+        print(result)
         return {
-            "base" : base
+            "result" : self.result
     }
 
 
 #====================( Main )====================
 if __name__=='__main__':
     root = Tk()
-    sm = SM(root, [0,{"uploads" : [1,2,3,4,5]}])
+    sm = SM(root, [0,{"uploads" : ['D:/Computer Science/Python/test1.py','D:/Computer Science/Python/test2.py']}])
     root.mainloop()
