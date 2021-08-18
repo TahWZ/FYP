@@ -1,12 +1,13 @@
 from tkinter import *
 from tkinter import ttk
 from pathlib import Path 
-
+import result as r
 #====================( Class )====================
 class SM():
     #====================( Functions )====================
     def __init__(self, fs, res):
         #====================( Variables )====================
+        self.root = fs
         self.datasets = []
         for _ in range(len(res[1]["uploads"])):
             selections = []
@@ -83,9 +84,13 @@ class SM():
                 else:
                     result[i].append(False)
         print(result)
+        #Just for transition purposes, will be changed later on
+        self.frame_main.destroy()
+        r.Result(self.root,[])
         return {
             "result" : self.result
     }
+
 
 
 #====================( Main )====================

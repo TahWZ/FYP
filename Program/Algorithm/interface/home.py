@@ -1,6 +1,7 @@
 import sys
 from tkinter import *
 import result
+import fs
 from home_train import HomeTrain
 from home_pred import HomePred
 #from PIL import ImageTK, Image
@@ -63,7 +64,7 @@ class Home:
         self.frame_1.destroy()
         self.frame_2.destroy()
         self.frame_3.destroy()
-        result.Result(self.root,[])
+        fs.SM(self.root,[0,{"uploads" : ['D:/Computer Science/Python/test1.py','D:/Computer Science/Python/test2.py']}])
 
 
 #====================( Main )====================
