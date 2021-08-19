@@ -1,18 +1,16 @@
 from tkinter import *
 from tkinter import ttk
 from pathlib import Path 
-import result as r
+import interface.result as r
 #====================( Class )====================
 class SM():
     #====================( Functions )====================
-    def __init__(self, fs, res, pred_res, train_res):
+    def __init__(self, fs, pred_res, train_res):
         #====================( Variables )====================
         self.root = fs
         self.datasets = []
         self.pred_res = pred_res
         self.train_res = train_res
-        print(pred_res)
-        print(train_res)
         # for _ in range(len(res[1]["uploads"])):
         #     selections = []
         #     for _ in range(3): #Three feature selection methods
@@ -72,7 +70,7 @@ class SM():
     
     def get_metrics(self, frame, i):
         j = 1
-        for fs in ['All','CFS','RFS']:
+        for fs in ['All','CFS','RFE']:
             #Label
             lab = Label(frame, text=fs)
             #Checkbutton
@@ -93,11 +91,10 @@ class SM():
                     result[i].append(True)
                 else:
                     result[i].append(False)
-        print(result)
         #Just for transition purposes, will be changed later on
         self.frame_main.destroy()
-        print(self.result)
-        r.Result(self.root,[],self.pred_res,self.train_res)
+        self.fs_res = {'result' : result}
+        r.Result(self.root,self.fs_res,self.pred_res,self.train_res)
         return {
             "result" : self.result
     }

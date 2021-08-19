@@ -1,6 +1,5 @@
 import sys
 from tkinter import *
-sys.path.append('interface')
 from interface.home import Home
 from interface.about import About
 from interface.report import Report
@@ -56,10 +55,6 @@ class Main:
         frame = Frame(tab)
         About(frame)
         frame.pack(expand=True)
-
-    def get_results(self):
-        pred_data,train_data = self.home_frame.get_results()
-        return pred_data,train_data
     
     def logout(self):
         from interface.login import Login

@@ -1,7 +1,7 @@
 import sys
 from tkinter import *
 from tkinter import messagebox
-from report_pdf import PDF
+from interface.report_pdf import PDF
 #from home_train import HomeTrain
 #from home_pred import HomePred
 #from PIL import ImageTK, Image

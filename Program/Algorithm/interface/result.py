@@ -1,13 +1,20 @@
 from tkinter import *
 from tkinter import ttk
-import home
+import interface.home
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
+sys.path.append("..") # Adds higher directory to python modules path.
+import jupyter_import
+import main_program
 
 #====================( Class )====================
 class Result():
     #====================( Functions )====================
     def __init__(self, result, fs_res, pred_res, train_res):
+        self.fs_res = fs_res
+        self.pred_res = pred_res
+        self.train_res = train_res
         #================( Root Reference )================
         self.root = result
         #====================( Main Frame )====================
@@ -43,10 +50,19 @@ class Result():
         but_cv_chart.pack()
         button_goback.pack()
         self.backbutton.pack()
+        self.run_algo()
         self.table()
         self.frame_table.pack()
         self.tabControl.grid(row = 0, column = 1)
         self.frame_main.pack(fill=BOTH, pady = 10)
+
+    def run_algo(self):
+        print(self.fs_res)
+        print(self.pred_res)
+        print(self.train_res)
+        for i,filename in enumerate(self.train_res['uploads']):
+            fs_res = self.fs_res['result'][i]
+            main_program.main_algo_run(filename,fs_res,self.pred_res,self.train_res)
 
     def table(self):
         lst = [['DT','lR','MLP','NB'],[90,20,21,22],[60,70,100,89]]
@@ -85,7 +101,7 @@ class Result():
     def back(self):
         self.frame_main.destroy()
         self.backbutton.destroy()
-        home.Home(self.root)
+        interface.home.Home(self.root)
 
 #====================( Main )====================
 if __name__=='__main__':

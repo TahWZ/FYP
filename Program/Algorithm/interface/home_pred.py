@@ -103,10 +103,14 @@ class HomePred():
 
     def result(self):
         base = []
+        ensemble = []
         for b in self.base:
             base.append(b.get())
+        for e in self.ensemble:
+            ensemble.append(e.get())
         return {
-            "base" : base
+            "base" : base,
+            'ensemble' : ensemble
         }
 
 
