@@ -28,11 +28,11 @@ class HomePred():
         #====================( Widgets )====================
         #--------------------( Tab 1 )--------------------
         #Label
-        t1_lab1 = Label(frame_base, text="Decision Tree")
-        t1_lab2 = Label(frame_base, text="Multi-Layer Perceptron")
-        t1_lab3 = Label(frame_base, text="Logistic Regression")
-        t1_lab4 = Label(frame_base, text="Naive Bayes")
-        t1_lab5 = Label(frame_base, text="Complement Naive Bayes")
+        t1_lab1 = Label(frame_base, text="Complement Naive Bayes")
+        t1_lab2 = Label(frame_base, text="Decision Tree")
+        t1_lab3 = Label(frame_base, text="Multi-Layer Perceptron")
+        t1_lab4 = Label(frame_base, text="Logistic Regression")
+        t1_lab5 = Label(frame_base, text="Naive Bayes")
 
         #Checkbutton
         t1_cb1 = Checkbutton(frame_base, variable=self.base[0])

@@ -15,6 +15,7 @@ class Result():
         self.fs_res = fs_res
         self.pred_res = pred_res
         self.train_res = train_res
+        self.width = 25
         #================( Root Reference )================
         self.root = result
         #====================( Main Frame )====================
@@ -60,24 +61,86 @@ class Result():
         print(self.fs_res)
         print(self.pred_res)
         print(self.train_res)
+        self.filenames = []
+        self.results = []
+        self.pp_names = []
         for i,filename in enumerate(self.train_res['uploads']):
             fs_res = self.fs_res['result'][i]
-            main_program.main_algo_run(filename,fs_res,self.pred_res,self.train_res)
+            pos = filename.rfind('/')
+            self.filenames.append(filename[pos+1:])
+            self.model_name, pp_name, result = main_program.main_algo_run(filename,fs_res,self.pred_res,self.train_res)
+            self.results.append(result)
+            self.pp_names.append(pp_name)
+            print(self.model_name)
+            print("*"*50)
+            print(pp_name)
+            print("*"*50)
+            print(result)
+
+    def create_table_headers(self,name,row_num):
+        entry = Entry(self.frame_table, bg='light gray')
+        entry.grid(row=row_num,column=0)
+        entry.insert(END,name)
+
+        for i in range(len(self.model_name)):
+            entry = Entry(self.frame_table, bg='light gray',width=self.width)
+            entry.grid(row=row_num,column=i+1)
+            entry.insert(END,self.model_name[i])
+
+        return row_num
+
+    def create_table_content(self,row_num,score,k):
+        col_num = 0
+        for i in range(len(self.pp_names[k])):
+            entry = Entry(self.frame_table)
+            entry.grid(row=row_num, column=0)
+            entry.insert(END,f'{self.filenames[k]} ({self.pp_names[k][i]})')
+            for m in range(len(self.model_name)):
+                entry = Entry(self.frame_table,width=self.width)
+                entry.grid(row=row_num, column=m+1)
+                entry.insert(END,score[col_num-1])
+                col_num += 1
+            row_num += 1
+        return row_num
 
     def table(self):
-        lst = [['DT','lR','MLP','NB'],[90,20,21,22],[60,70,100,89]]
-        
-        for j in range(len(lst[0])):
-            entry = Entry(self.frame_table, bg='light gray')
-            entry.grid(row=0, column=j)
-            entry.insert(END,lst[0][j])
-        for i in range(1,len(lst)):
-            for j in range(len(lst[0])):
-                entry = Entry(self.frame_table)
-                entry.grid(row=i, column=j)
-                entry.insert(END,lst[i][j])
-        
+        sum_pp = sum([len(listElem) for listElem in self.pp_names])
+        spaces = sum_pp * len(self.filenames) + 3
+        auc_header_num = 0
+        auc_row_num = 1
+        f1_header_num = spaces
+        f1_row_num = f1_header_num + 1
+        fpr_header_num = spaces * 2
+        fpr_row_num = fpr_header_num + 1
+        fnr_header_num = spaces * 3
+        fnr_row_num = fnr_header_num + 1
+        for k in range(len(self.filenames)):
+            (self.auc_name,self.auc_score) = self.results[k][0]
+            (self.f1_name,self.f1_score)= self.results[k][1]
+            (self.fpr_name,self.fpr) = self.results[k][2]
+            (self.fnr_name,self.fnr) = self.results[k][3]
 
+            # ========= AUC ========== #
+            auc_row_num = self.create_table_content(auc_row_num,self.auc_score,k)
+            # ======================== #
+
+            # ========= F1-Score ======== #
+            f1_row_num = self.create_table_content(f1_row_num,self.f1_score,k)
+            # =========================== #
+
+            # ========= False Positive Rate ========= #
+            fpr_row_num = self.create_table_content(fpr_row_num,self.fpr,k)
+            # ======================================= #
+
+            # ========= False Negative Rate ========= #
+            fnr_row_num = self.create_table_content(fnr_row_num,self.fnr,k)
+            # ======================================= #
+
+        self.create_table_headers(self.auc_name,auc_header_num)
+        self.create_table_headers(self.f1_name,f1_header_num)
+        self.create_table_headers(self.fpr_name,fpr_header_num)
+        self.create_table_headers(self.fnr_name,fnr_header_num)
+        
     def chart(self):
         name = ['DT','lR','MLP','NB']
         temp1 = [90,20,21,22]

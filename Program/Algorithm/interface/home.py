@@ -60,17 +60,17 @@ class Home:
         # self.home_pred.result(),
         # self.home_train.result()
         # )
-        import os
-        import re
-        test_file_path = os.getcwd() + '/datasets/NASA/CM1.arff.txt'
-        test_file_path2 = os.getcwd() + '/datasets/NASA/JM1.arff.txt'
+        # import os
+        # import re
+        # test_file_path = os.getcwd() + '/datasets/NASA/CM1.arff.txt'
+        # test_file_path2 = os.getcwd() + '/datasets/NASA/JM1.arff.txt'
         # test_file_path = os.getcwd() + '\\test1.py'
-        test_file_path = re.sub(r'\\','/',test_file_path)
+        # test_file_path = re.sub(r'\\','/',test_file_path)
         # test_file_path2 = os.getcwd() + '\\test2.py'
-        test_file_path2 = re.sub(r'\\','/',test_file_path2)
+        # test_file_path2 = re.sub(r'\\','/',test_file_path2)
         home_pred_res = self.home_pred.result()
         home_train_res = self.home_train.result()
-        home_train_res['uploads'] = [test_file_path,test_file_path2]
+        # home_train_res['uploads'] = [test_file_path, test_file_path2]
         interface.fs.SM(self.root,home_pred_res,home_train_res)
         self.frame_1.destroy()
         self.frame_2.destroy()
