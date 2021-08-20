@@ -140,26 +140,70 @@ class Result():
         self.create_table_headers(self.f1_name,f1_header_num)
         self.create_table_headers(self.fpr_name,fpr_header_num)
         self.create_table_headers(self.fnr_name,fnr_header_num)
+
+    def create_bars(self,name,score,labels):
+        flatten_list = [item for items in score for item in items]
+        n = len(self.model_name)
+        new_score = [flatten_list[i:i+n] for i in range(0,len(flatten_list),n)]
+
+        print('%'*50)
+        print(name)
+        print(self.model_name)
+        print(labels)
+        print(new_score)
+        ypos = np.arange(len(self.model_name))
+        print('%'*50)
+
+        bar_width = 0.25
+
+        def sub_bar(x,vals,width=0.8):
+            n = len(vals)
+            xpos = np.arange(len(x))
+            for i in range(n):
+                plt.bar(xpos - width/2 + i/float(n)*width, vals[i],
+                        width=width/float(n),align='edge')
+
+        sub_bar(self.model_name,new_score)
+        plt.show()
+        pass
+            
         
     def chart(self):
-        name = ['DT','lR','MLP','NB']
-        temp1 = [90,20,21,22]
-        temp2 = [60,70,100,89]
-        ypos = np.arange(len(name))
-        #plt.legend(labels=["a","b"])
-        plt.subplot(1,2,1) #row, column, position
-        plt.xticks(ypos, name)
-        plt.title('AUC-score')
-        plt.xlabel('Model')
-        plt.ylabel('Score')
-        plt.bar(ypos,temp1,color='blue')
-        plt.subplot(1,2,2) #row, column, position
-        plt.xticks(ypos, name)
-        plt.title('F1-score')
-        plt.xlabel('Model')
-        plt.ylabel('Score')
-        plt.bar(ypos,temp2,color='orange')
-        plt.show()
+        labels = []
+        auc_data = []
+        f1_data = []
+        fpr_data = []
+        fnr_data = []
+        for k in range(len(self.filenames)):
+            auc_data.append(self.results[k][0][1])
+            f1_data.append(self.results[k][1][1])
+            fpr_data.append(self.results[k][2][1])
+            fnr_data.append(self.results[k][3][1])
+            
+            for i in range(len(self.pp_names[k])):
+                labels.append(f'{self.filenames[k]} ({self.pp_names[k][i]})')
+
+        self.create_bars(self.auc_name,auc_data,labels)
+
+
+        # name = ['DT','lR','MLP','NB']
+        # temp1 = [90,20,21,22]
+        # temp2 = [60,70,100,89]
+        # ypos = np.arange(len(name))
+        # #plt.legend(labels=["a","b"])
+        # plt.subplot(1,2,1) #row, column, position
+        # plt.xticks(ypos, name)
+        # plt.title('AUC-score')
+        # plt.xlabel('Model')
+        # plt.ylabel('Score')
+        # plt.bar(ypos,temp1,color='blue')
+        # plt.subplot(1,2,2) #row, column, position
+        # plt.xticks(ypos, name)
+        # plt.title('F1-score')
+        # plt.xlabel('Model')
+        # plt.ylabel('Score')
+        # plt.bar(ypos,temp2,color='orange')
+        # plt.show()
     
     def back(self):
         self.frame_main.destroy()
