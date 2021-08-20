@@ -31,10 +31,10 @@ class Main:
         #Row 0
         lab_1.pack(fill=BOTH)
         #Row 1
-        button_logout.pack()
-        #End
         self.tabControl.pack()
         self.frame_main.pack()
+        #End
+        button_logout.pack()
         
     def get_tabs(self):
         #Tab 1
@@ -64,6 +64,7 @@ class Main:
 #====================( Main )====================
 if __name__=='__main__':
     root = Tk()
+    root.resizable(False,False)
     main_root = Main(root)
     root.title('Prediction software')
     root.mainloop()
