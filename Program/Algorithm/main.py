@@ -3,6 +3,7 @@ from tkinter import *
 from interface.home import Home
 from interface.about import About
 from interface.report import Report
+import interface.login
 from tkinter import ttk
 #from PIL import ImageTK, Image
 
@@ -57,15 +58,15 @@ class Main:
         frame.pack(expand=True)
     
     def logout(self):
-        from interface.login import Login
+        #from interface.login import Login
         self.frame_main.destroy()
-        Login(self.root)
+        interface.login.Login(self.root)
 
 #====================( Main )====================
 if __name__=='__main__':
     root = Tk()
     root.resizable(False,False)
-    main_root = Main(root)
+    main_root = interface.login.Login(root)
     root.title('Prediction software')
     root.mainloop()
     

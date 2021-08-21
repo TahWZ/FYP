@@ -73,10 +73,10 @@ class Login:
         else:
             self.frame_main.destroy()
             main.Main(self.root)
-            return {
-                'username':self.ent_usr.get(),
-                'password':self.ent_pwd.get()
-            }
+            #return {
+            #    'username':self.ent_usr.get(),
+            #    'password':self.ent_pwd.get()
+            #}
             
 
 #====================( Main )====================
