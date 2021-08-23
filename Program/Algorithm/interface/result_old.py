@@ -31,12 +31,6 @@ class Result():
         #====================( Frames )====================
         self.frame_table = Frame(tab_table)
         #====================( Widgets )====================
-        #Label
-        lab_cv_auc = Label(tab_chart, text="AUC")
-        lab_cv_f1 = Label(tab_chart, text="F1 score")
-        lab_cv_fpr = Label(tab_chart, text="False Positive Rate")
-        lab_cv_fnr = Label(tab_chart, text="False Negative Rate")
-        
         #Button
         '''
         @Attributes
@@ -46,10 +40,7 @@ class Result():
         pady: Performs padding on y-axis (*.px)
         command: Function to execute
         '''
-        but_cv_auc = Button(tab_chart, text="Show chart", command=lambda: self.chart(0))
-        but_cv_f1 = Button(tab_chart, text="Show chart", command=lambda: self.chart(1))
-        but_cv_fpr = Button(tab_chart, text="Show chart", command=lambda: self.chart(2))
-        but_cv_fnr = Button(tab_chart, text="Show chart", command=lambda: self.chart(3))
+        but_cv_chart = Button(tab_chart, text="Show chart", command=lambda: self.chart())
         button_goback = Button(self.backbutton, text = "Go Back", width = 10, command = lambda: self.back())
         #====================( Display )====================
         '''
@@ -57,16 +48,7 @@ class Result():
         .pack(padx, pady)
         .grid(row, column, columnspan)
         '''
-        #Chart view
-        lab_cv_auc.grid(row = 0, column = 0)
-        but_cv_auc.grid(row = 0, column = 1)
-        lab_cv_f1.grid(row = 1, column = 0)
-        but_cv_f1.grid(row = 1, column = 1)
-        lab_cv_fpr.grid(row = 2, column = 0)
-        but_cv_fpr.grid(row = 2, column = 1)
-        lab_cv_fnr.grid(row = 3, column = 0)
-        but_cv_fnr.grid(row = 3, column = 1)
-        #Remaining
+        but_cv_chart.pack()
         button_goback.pack()
         self.backbutton.pack()
         self.run_algo()
@@ -76,9 +58,9 @@ class Result():
         self.frame_main.pack(fill=BOTH, pady = 10)
 
     def run_algo(self):
-        #print(self.fs_res)
-        #print(self.pred_res)
-        #print(self.train_res)
+        print(self.fs_res)
+        print(self.pred_res)
+        print(self.train_res)
         self.filenames = []
         self.results = []
         self.pp_names = []
@@ -89,9 +71,6 @@ class Result():
             self.model_name, pp_name, result = main_program.main_algo_run(filename,fs_res,self.pred_res,self.train_res)
             self.results.append(result)
             self.pp_names.append(pp_name)
-            print("*"*50)
-            print(filename[pos+1:])
-            print("*"*50)
             print(self.model_name)
             print("*"*50)
             print(pp_name)
@@ -162,65 +141,49 @@ class Result():
         self.create_table_headers(self.fpr_name,fpr_header_num)
         self.create_table_headers(self.fnr_name,fnr_header_num)
 
-    def create_bars(self,score,labels):
+    def create_bars(self,name,score,labels):
         flatten_list = [item for items in score for item in items]
         n = len(self.model_name)
         new_score = [flatten_list[i:i+n] for i in range(0,len(flatten_list),n)]
 
-        #Transpose
-        #new_score = np.array(new_score).transpose().tolist()
-        
-        #print('%'*50)
-        #print(name)
-        #print(self.model_name)
-        #print(labels)
+        print('%'*50)
+        print(name)
+        print(self.model_name)
+        print(labels)
         print(new_score)
         ypos = np.arange(len(self.model_name))
-        #print('%'*50)
+        print('%'*50)
 
         bar_width = 0.25
 
         def sub_bar(x,vals,width=0.8):
             n = len(vals)
             xpos = np.arange(len(x))
-            colors = []
-            #ax.set_xticks(xpos)
-            #ax.set_xticklabels(self.model_name, rotation=30)
-            plt.xticks(xpos, self.model_name)#, rotation = 30)
             for i in range(n):
-                temp = plt.bar(xpos - width/2 + i/float(n)*width, vals[i],
+                plt.bar(xpos - width/2 + i/float(n)*width, vals[i],
                         width=width/float(n),align='edge')
-                colors.append(temp.patches[0].get_facecolor())
-            handles = [plt.Rectangle((0,0),1,1, color=col) for col in colors]
-            plt.legend(handles, labels)
-            #print(colors)
+
         sub_bar(self.model_name,new_score)
         plt.show()
         pass
             
         
-    def chart(self, score):
-        plt.close('all')
+    def chart(self):
         labels = []
-        data = []
-        #auc_data = []
-        #f1_data = []
-        #fpr_data = []
-        #fnr_data = []
+        auc_data = []
+        f1_data = []
+        fpr_data = []
+        fnr_data = []
         for k in range(len(self.filenames)):
-            #auc_data.append(self.results[k][0][1])
-            #f1_data.append(self.results[k][1][1])
-            #fpr_data.append(self.results[k][2][1])
-            #fnr_data.append(self.results[k][3][1])
-            data.append(self.results[k][score][1])
+            auc_data.append(self.results[k][0][1])
+            f1_data.append(self.results[k][1][1])
+            fpr_data.append(self.results[k][2][1])
+            fnr_data.append(self.results[k][3][1])
             
             for i in range(len(self.pp_names[k])):
                 labels.append(f'{self.filenames[k]} ({self.pp_names[k][i]})')
-        #print(labels)
-        #print(self.auc_name)
-        plt.title(['AUC','F1 score','False Positive Rate','False Negative Rate'][score])
-        plt.ylim(0,1)
-        self.create_bars(data,labels)
+
+        self.create_bars(self.auc_name,auc_data,labels)
 
 
         # name = ['DT','lR','MLP','NB']
@@ -240,7 +203,7 @@ class Result():
         # plt.xlabel('Model')
         # plt.ylabel('Score')
         # plt.bar(ypos,temp2,color='orange')
-        #plt.show()
+        # plt.show()
     
     def back(self):
         self.frame_main.destroy()
