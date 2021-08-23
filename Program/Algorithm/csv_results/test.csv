@@ -1,0 +1,23 @@
+AUC
+Model name,Complement Naive Bayes,Decision Tree
+CM1.arff.txt (All),0.56,0.661
+JM1.arff.txt (All),0.535,0.585,0.532,0.581
+JM1.arff.txt (CFS)
+
+F1 Score
+Model name,Complement Naive Bayes,Decision Tree
+CM1.arff.txt (All),0.283,0.317
+JM1.arff.txt (All),0.273,0.307,0.267,0.304
+JM1.arff.txt (CFS)
+
+False Positive Rate
+Model name,Complement Naive Bayes,Decision Tree
+CM1.arff.txt (All),0.368,0.428
+JM1.arff.txt (All),0.318,0.558,0.296,0.588
+JM1.arff.txt (CFS)
+
+False Negative Rate
+Model name,Complement Naive Bayes,Decision Tree
+CM1.arff.txt (All),0.4,0.25
+JM1.arff.txt (All),0.572,0.272,0.602,0.25
+JM1.arff.txt (CFS)

@@ -70,6 +70,7 @@ class Result():
         button_goback.pack()
         self.backbutton.pack()
         self.run_algo()
+        self.run_csv()
         self.table()
         self.frame_table.pack()
         self.tabControl.grid(row = 0, column = 1)
@@ -98,6 +99,10 @@ class Result():
             print("*"*50)
             print(result)
 
+    def run_csv(self):
+        self.csv_filename = self.train_res['pfn']
+        main_program.run(self.filenames,self.csv_filename,self.results,self.model_name,self.pp_names)
+
     def create_table_headers(self,name,row_num):
         entry = Entry(self.frame_table, bg='light gray')
         entry.grid(row=row_num,column=0)
@@ -112,6 +117,7 @@ class Result():
 
     def create_table_content(self,row_num,score,k):
         col_num = 0
+        print(score)
         for i in range(len(self.pp_names[k])):
             entry = Entry(self.frame_table)
             entry.grid(row=row_num, column=0)
@@ -119,7 +125,7 @@ class Result():
             for m in range(len(self.model_name)):
                 entry = Entry(self.frame_table,width=self.width)
                 entry.grid(row=row_num, column=m+1)
-                entry.insert(END,score[col_num-1])
+                entry.insert(END,score[col_num])
                 col_num += 1
             row_num += 1
         return row_num
