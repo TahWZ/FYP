@@ -7,6 +7,7 @@ import sys
 sys.path.append("..") # Adds higher directory to python modules path.
 import jupyter_import
 import main_program
+import os
 
 #====================( Class )====================
 class Result():
@@ -26,8 +27,10 @@ class Result():
         #====================( Tabs )====================
         tab_table = ttk.Frame(self.tabControl)
         tab_chart = ttk.Frame(self.tabControl)
+        tab_csv = ttk.Frame(self.tabControl)
         self.tabControl.add(tab_table, text='Table View')
         self.tabControl.add(tab_chart, text='Chart View')
+        self.tabControl.add(tab_csv, text = 'CSV Results')
         #====================( Frames )====================
         self.frame_table = Frame(tab_table)
         #====================( Widgets )====================
@@ -36,6 +39,11 @@ class Result():
         lab_cv_f1 = Label(tab_chart, text="F1 score")
         lab_cv_fpr = Label(tab_chart, text="False Positive Rate")
         lab_cv_fnr = Label(tab_chart, text="False Negative Rate")
+
+        # CSV File path
+        csvfilepath = os.getcwd() + '\csv_results\\' + train_res['pfn'] +'.csv'
+        csvfilepath = csvfilepath.replace('\\\\','\\')
+        lab_cv_csv = Label(tab_csv, text=f'CSV File Location\n{csvfilepath}')
         
         #Button
         '''
@@ -66,6 +74,10 @@ class Result():
         but_cv_fpr.grid(row = 2, column = 1)
         lab_cv_fnr.grid(row = 3, column = 0)
         but_cv_fnr.grid(row = 3, column = 1)
+
+        # CSV View
+        lab_cv_csv.grid(row = 0, column = 0)
+
         #Remaining
         button_goback.pack()
         self.backbutton.pack()
@@ -77,9 +89,9 @@ class Result():
         self.frame_main.pack(fill=BOTH, pady = 10)
 
     def run_algo(self):
-        #print(self.fs_res)
-        #print(self.pred_res)
-        #print(self.train_res)
+        # print(self.fs_res)
+        # print(self.pred_res)
+        # print(self.train_res)
         self.filenames = []
         self.results = []
         self.pp_names = []
@@ -90,14 +102,14 @@ class Result():
             self.model_name, pp_name, result = main_program.main_algo_run(filename,fs_res,self.pred_res,self.train_res)
             self.results.append(result)
             self.pp_names.append(pp_name)
-            print("*"*50)
-            print(filename[pos+1:])
-            print("*"*50)
-            print(self.model_name)
-            print("*"*50)
-            print(pp_name)
-            print("*"*50)
-            print(result)
+            # print("*"*50)
+            # print(filename[pos+1:])
+            # print("*"*50)
+            # print(self.model_name)
+            # print("*"*50)
+            # print(pp_name)
+            # print("*"*50)
+            # print(result)
 
     def run_csv(self):
         self.csv_filename = self.train_res['pfn']
@@ -117,7 +129,6 @@ class Result():
 
     def create_table_content(self,row_num,score,k):
         col_num = 0
-        print(score)
         for i in range(len(self.pp_names[k])):
             entry = Entry(self.frame_table)
             entry.grid(row=row_num, column=0)
@@ -180,7 +191,7 @@ class Result():
         #print(name)
         #print(self.model_name)
         #print(labels)
-        print(new_score)
+        # print(new_score)
         ypos = np.arange(len(self.model_name))
         #print('%'*50)
 

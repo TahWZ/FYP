@@ -13,6 +13,7 @@ class HomeTrain():
         lab_2 = Label(self.frame_main, text="Upload dataset")
         lab_3 = Label(self.frame_main, text="Prediction file name")
         lab_4 = Label(self.frame_main, text="Prediction file path")
+        lab_5 = Label(self.frame_main, text='K Fold')
 
         #Button
         '''
@@ -40,6 +41,7 @@ class HomeTrain():
         self.ent_tt = Entry(self.frame_main, width=5) #Training/Test
         self.ent_pfn = Entry(self.frame_main, width=20)#Prediction file name
         self.ent_pfp = Entry(self.frame_main, width=20)#Prediction file path
+        self.ent_kfold = Entry(self.frame_main, width = 5) # K Fold
 
         #Listbox
         self.lb_upload = Listbox(self.frame_main, width=40, selectmode="multiple")
@@ -57,19 +59,22 @@ class HomeTrain():
         lab_1.grid(sticky="W", row = 0, column = 1)
         self.ent_tt.grid(sticky="W", row = 0, column = 2)
         #Row 1
-        lab_2.grid(sticky="W", row = 1, column = 1)
+        lab_5.grid(sticky='W', row = 1, column = 1)
+        self.ent_kfold.grid(sticky='W', row = 1, column = 2)
         #Row 2
-        self.lb_upload.grid(row = 2, column = 1, columnspan = 2)
-        sb_upload.grid(sticky=N+S+W, row = 2, column = 3)
+        lab_2.grid(sticky="W", row = 2, column = 1)
         #Row 3
-        but_ud_remove.grid(row = 3, column = 1, pady = 10)
-        but_ud_upload.grid(row = 3, column = 2, pady = 10)
+        self.lb_upload.grid(row = 3, column = 1, columnspan = 2)
+        sb_upload.grid(sticky=N+S+W, row = 3, column = 3)
         #Row 4
-        lab_3.grid(sticky="W", row = 4, column = 1)
-        self.ent_pfn.grid(sticky="W", row = 4, column = 2)
+        but_ud_remove.grid(row = 4, column = 1, pady = 10)
+        but_ud_upload.grid(row = 4, column = 2, pady = 10)
         #Row 5
-        lab_4.grid(sticky="W", row = 5, column = 1)
-        self.ent_pfp.grid(sticky="W", row = 5, column = 2)
+        lab_3.grid(sticky="W", row = 5, column = 1)
+        self.ent_pfn.grid(sticky="W", row = 5, column = 2)
+        #Row 6
+        # lab_4.grid(sticky="W", row = 5, column = 1)
+        # self.ent_pfp.grid(sticky="W", row = 5, column = 2)
         #End
         self.frame_main.pack(side = RIGHT, fill=BOTH, pady = 10)
 
@@ -91,7 +96,8 @@ class HomeTrain():
             "tt": self.ent_tt.get(),
             "uploads" : filenames,
             "pfn": self.ent_pfn.get(),
-            "pfp": self.ent_pfp.get()
+            "pfp": self.ent_pfp.get(),
+            "kfold" : self.ent_kfold.get()
         }
 
 
