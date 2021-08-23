@@ -5,7 +5,7 @@ from interface.about import About
 from interface.report import Report
 import interface.login
 from tkinter import ttk
-#from PIL import ImageTK, Image
+from PIL import ImageTk, Image
 
 #====================( Main )====================
 class Main:
@@ -13,6 +13,7 @@ class Main:
     def __init__(self, root):
         #================( Root Reference )================
         self.root = root
+        self.photo = ImageTk.PhotoImage(Image.open("logo.png"))
         #====================( Frames )====================
         self.frame_main = Frame(root)
         #====================( Notebook )====================
@@ -22,7 +23,8 @@ class Main:
         #====================( Widgets )====================
         #Label
         button_logout = Button(self.frame_main, text="Logout", width = 10,command=lambda: self.logout())
-        lab_1 = Label(self.frame_main, text="Logo", bg = "black", fg = "white", width = 80, height = 10)
+        lab_1 = Label(self.frame_main, image = self.photo, width = 150, height = 150)
+        
         #====================( Display )====================
         '''
         @Functions
@@ -30,7 +32,7 @@ class Main:
         .grid(row, column, columnspan)
         '''
         #Row 0
-        lab_1.pack(fill=BOTH)
+        lab_1.pack()
         #Row 1
         self.tabControl.pack()
         self.frame_main.pack()
