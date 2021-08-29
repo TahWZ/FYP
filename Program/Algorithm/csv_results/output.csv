@@ -1,0 +1,27 @@
+AUC
+Model name,Complement Naive Bayes,Decision Tree,Logistic regression,Random Forest,Rotation Forest
+PC1.arff.txt (All),0.635,0.683,0.845,0.887,0.717
+PC1.arff.txt (CFS),0.857,0.78,0.827,0.893,0.81
+PC3.arff.txt (CFS),0.66,0.765,0.827,0.836,0.77
+PC3.arff.txt (RFE),0.711,0.719,0.715,0.811,0.673
+
+F1 Score
+Model name,Complement Naive Bayes,Decision Tree,Logistic regression,Random Forest,Rotation Forest
+PC1.arff.txt (All),0.173,0.223,0.329,0.334,0.229
+PC1.arff.txt (CFS),0.276,0.309,0.285,0.365,0.277
+PC3.arff.txt (CFS),0.224,0.309,0.302,0.308,0.303
+PC3.arff.txt (RFE),0.234,0.276,0.265,0.277,0.241
+
+False Positive Rate
+Model name,Complement Naive Bayes,Decision Tree,Logistic regression,Random Forest,Rotation Forest
+PC1.arff.txt (All),0.292,0.234,0.208,0.208,0.246
+PC1.arff.txt (CFS),0.326,0.242,0.232,0.214,0.218
+PC3.arff.txt (CFS),0.366,0.33,0.328,0.32,0.332
+PC3.arff.txt (RFE),0.434,0.3,0.22,0.306,0.32
+
+False Negative Rate
+Model name,Complement Naive Bayes,Decision Tree,Logistic regression,Random Forest,Rotation Forest
+PC1.arff.txt (All),0.5,0.4,0.2,0.2,0.4
+PC1.arff.txt (CFS),0.1,0.2,0.3,0.1,0.3
+PC3.arff.txt (CFS),0.32,0.14,0.14,0.14,0.14
+PC3.arff.txt (RFE),0.17,0.26,0.42,0.25,0.35
