@@ -9,27 +9,22 @@ import math
 import jupyter_import # Allows jupyter notebook to be imported
 import warnings # Suppress Warnings
 warnings.filterwarnings('ignore')
-#Add path
-sys.path.append("data_preproc")
-sys.path.append("pred_mdls/base")
-sys.path.append("pred_mdls/ensemble")
-sys.path.append("pf_eval")
-from Preprocess import preprocess, Normalize
-from Complement_Naive_Bayes import complement_naive_bayes_model
-from Decision_Tree import decision_tree_model
-from Logistic_Regression import logistic_regression_model
-from Multi_Layer_Perceptron import multi_layer_perceptron_model
-from Naive_Bayes import naive_bayes_model
-from Random_Forest import random_forest_model
-from Rotation_Forest import rotation_forest_model
-from Voting import voting_model
-from AUC_ROC import auc_roc_model
-from F1_Score import f1_model
-from CSV import write_results
-from CFS import cfs_algo
-from RFE import rfe_algo
-from RR import ridge_algo
-from Confusion_Matrix import confusion_matrix_model
+from data_preproc.Preprocess import preprocess, Normalize
+from pred_mdls.base.Complement_Naive_Bayes import complement_naive_bayes_model
+from pred_mdls.base.Decision_Tree import decision_tree_model
+from pred_mdls.base.Logistic_Regression import logistic_regression_model
+from pred_mdls.base.Multi_Layer_Perceptron import multi_layer_perceptron_model
+from pred_mdls.base.Naive_Bayes import naive_bayes_model
+from pred_mdls.ensemble.Random_Forest import random_forest_model
+from pred_mdls.ensemble.Rotation_Forest import rotation_forest_model
+from pred_mdls.ensemble.Voting import voting_model
+from pf_eval.AUC_ROC import auc_roc_model
+from pf_eval.F1_Score import f1_model
+from pf_eval.CSV import write_results
+from data_preproc.CFS import cfs_algo
+from data_preproc.RFE import rfe_algo
+from data_preproc.RR import ridge_algo
+from pf_eval.Confusion_Matrix import confusion_matrix_model
 
 def data_conversion(data):
     for i in range(len(data)):
@@ -102,6 +97,38 @@ def run(datasets, savename, results, model_name, pp_name):
             if k != len(results[0])-1:
                 res.writerow('')
 
+def feature_selection(fs_res,loaddata,data,train_size,k_fold):
+    pp_arr = []
+    feature_funcs = [cfs_algo,rfe_algo]
+    if fs_res[0]:
+        pp_arr.append(preprocess(loaddata,k_fold))
+    for i in range(1,len(fs_res)):
+        if fs_res[i]:
+            _,f_selection = feature_funcs[i-1](data,train_size)
+            pp_arr.append(preprocess(loaddata,k_fold,f_selection))
+    return pp_arr
+
+def model_creation(base_preds,ensemble_preds,data):
+    models = []
+    args = [1000]
+    base_funcs = [
+        complement_naive_bayes_model,
+        decision_tree_model,
+        logistic_regression_model,
+        multi_layer_perceptron_model,
+        naive_bayes_model 
+    ]
+    ensemble_funcs = [
+        random_forest_model,
+        rotation_forest_model,
+        voting_model
+    ]
+    for index in base_preds:
+        models.append(base_funcs[index](data))
+    for index in ensemble_preds:
+        models.append(ensemble_funcs[index](data,args))
+    return models
+
 def main_algo_run(filename,fs_res,pred_res,train_res):
     # Read the file
     loaddata = read_data(filename)
@@ -114,16 +141,6 @@ def main_algo_run(filename,fs_res,pred_res,train_res):
     lookup_pp = ['All','CFS','RFE']
     fs_arr = [i for i in range(len(fs_res)) if fs_res[i]]
     pp_name = [lookup_pp[i] for i in fs_arr]
-    def feature_selection(fs_res,loaddata,data,train_size,k_fold):
-        pp_arr = []
-        feature_funcs = [cfs_algo,rfe_algo]
-        if fs_res[0]:
-            pp_arr.append(preprocess(loaddata,k_fold))
-        for i in range(1,len(fs_res)):
-            if fs_res[i]:
-                _,f_selection = feature_funcs[i-1](data,train_size)
-                pp_arr.append(preprocess(loaddata,k_fold,f_selection))
-        return pp_arr
     train_size = int(train_res['tt']) if not train_res['tt'] == '' else 10
     k_fold = int(train_res['kfold']) if not train_res['kfold'] == '' else 5
     pp_arr = feature_selection(fs_res,loaddata,data,train_size,k_fold)
@@ -131,26 +148,6 @@ def main_algo_run(filename,fs_res,pred_res,train_res):
     ensemble_preds = [i for i,pred in enumerate(pred_res['ensemble']) if pred == 1]
     model_name = [lookup_model[index] for index in base_preds] + [lookup_model[index+5] for index in ensemble_preds]
     length_preds = len(base_preds) + len(ensemble_preds)
-    def model_creation(base_preds,ensemble_preds,data):
-        models = []
-        args = [1000]
-        base_funcs = [
-            complement_naive_bayes_model,
-            decision_tree_model,
-            logistic_regression_model,
-            multi_layer_perceptron_model,
-            naive_bayes_model 
-        ]
-        ensemble_funcs = [
-            random_forest_model,
-            rotation_forest_model,
-            voting_model
-        ]
-        for index in base_preds:
-            models.append(base_funcs[index](data))
-        for index in ensemble_preds:
-            models.append(ensemble_funcs[index](data,args))
-        return models
     result = []
     arr_size = length_preds*len(pp_name) #Result array size
     auc_arr = [0]*arr_size
