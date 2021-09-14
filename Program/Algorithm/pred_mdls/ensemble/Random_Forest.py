@@ -8,7 +8,7 @@ import numpy as np
 #=================#
 
 #==== Functions ====#
-def random_forest_model(data, args=[1000]):
+def random_forest_model(data, args=[108]):
     '''
     Arguments:
     1. Data
