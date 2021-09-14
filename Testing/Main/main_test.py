@@ -14,7 +14,7 @@ class main_test_1(unittest.TestCase):
     def test1(self):
         '''
         Test suite: 1
-        Test case ID: 1
+        Test case ID: 1.1
         '''
         output = read_data("test1.arff.txt")
         #Expected results
@@ -30,7 +30,7 @@ class main_test_1(unittest.TestCase):
     def test2(self):
         '''
         Test suite: 1
-        Test case ID: 2
+        Test case ID: 1.2
         '''
         loaddata = read_data("test1.arff.txt")
         #Extracted from function
@@ -48,7 +48,7 @@ class main_test_1(unittest.TestCase):
     def test3(self):
         '''
         Test suite: 1
-        Test case ID: 3
+        Test case ID: 1.3
         '''
         loaddata = read_data("test1.arff.txt")
         #Extracted from function
@@ -59,7 +59,7 @@ class main_test_1(unittest.TestCase):
     def test4(self):
         '''
         Test suite: 1
-        Test case ID: 4
+        Test case ID: 1.4
         '''
         loaddata = read_data("test2.arff.txt")
         #Extracted from function
@@ -106,6 +106,50 @@ class main_test_2(unittest.TestCase):
         '''
         Test suite: 2
         Test case ID: 1
+        '''
+        try:
+            feature_selection([False,True,False], self.loaddata1, self.data1, 4, 4)
+        except:
+            assert False, "Feature selection failed for processed data"
+
+class main_test_3(unittest.TestCase):
+    #Test suite 3
+    def setUp(self):
+        self.loaddata1 = read_data("test3.arff.txt")
+        #Extracted from function
+        SM = np.array(self.loaddata1.iloc[:,:-1]) 
+        L = data_conversion(np.array(self.loaddata1.iloc[:,-1])).astype(int)
+        self.data1 = [SM, L]
+        self.loaddata2 = read_data("test2.arff.txt")
+        #Extracted from function
+        SM = np.array(self.loaddata2.iloc[:,:-1]) 
+        L = data_conversion(np.array(self.loaddata2.iloc[:,-1])).astype(int)
+        self.data2 = [SM, L]
+
+    def test1(self):
+        '''
+        Test suite: 3
+        Test case ID: 1
+        '''
+        try:
+            feature_selection([True]*3, self.loaddata1, self.data1, 6, 5)
+        except:
+            assert False, "Feature selection failed for processed data"
+
+    def test2(self):
+        '''
+        Test suite: 3
+        Test case ID: 2
+        '''
+        try:
+            feature_selection([True]*3, self.loaddata1, self.data1, 3, 4)
+        except:
+            assert False, "Feature selection failed for processed data"
+
+    def test3(self):
+        '''
+        Test suite: 3
+        Test case ID: 3
         '''
         try:
             feature_selection([False,True,False], self.loaddata1, self.data1, 4, 4)
