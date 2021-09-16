@@ -18,7 +18,7 @@ def data_conversion(data_column):
 
 def rfe_algo(data, n_k=10):
     model = LogisticRegression(max_iter=10000000000) 
-    model = RFE(model, n_k)
+    model = RFE(model, n_features_to_select=n_k)
     rfe = model.fit(data[0], data[1])
     selections = rfe.support_
     return rfe, selections
