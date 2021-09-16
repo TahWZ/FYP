@@ -1,35 +1,15 @@
 AUC
-Model name,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
-CM1.arff.txt (All),0.663,0.523,0.712,0.803,0.666,0.739
-JM1.arff.txt (All),0.646,0.547,0.62,0.655,0.601,0.643
-KC1.arff.txt (All),0.625,0.634,0.64,0.625,0.594,0.637
-MC2.arff.txt (All),0.633,0.698,0.435,0.633,0.576,0.508
-PC1.arff.txt (All),0.769,0.398,0.775,0.846,0.768,0.818
-PC3.arff.txt (All),0.814,0.412,0.778,0.845,0.783,0.832
+Model name,Complement Naive Bayes
+CM1.arff.txt (All),0.602
 
 F1 Score
-Model name,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
-CM1.arff.txt (All),0.299,0.121,0.321,0.341,0.301,0.339
-JM1.arff.txt (All),0.323,0.224,0.304,0.317,0.313,0.323
-KC1.arff.txt (All),0.389,0.378,0.376,0.363,0.362,0.376
-MC2.arff.txt (All),0.502,0.397,0.175,0.427,0.467,0.309
-PC1.arff.txt (All),0.244,0.047,0.177,0.251,0.229,0.235
-PC3.arff.txt (All),0.287,0.076,0.252,0.306,0.292,0.286
+Model name,Complement Naive Bayes
+CM1.arff.txt (All),0.245
 
 False Positive Rate
-Model name,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
-CM1.arff.txt (All),0.462,0.206,0.448,0.396,0.444,0.408
-JM1.arff.txt (All),0.502,0.546,0.408,0.574,0.558,0.442
-KC1.arff.txt (All),0.416,0.428,0.312,0.554,0.536,0.358
-MC2.arff.txt (All),0.478,0.302,0.524,0.526,0.502,0.552
-PC1.arff.txt (All),0.258,0.09,0.404,0.248,0.232,0.274
-PC3.arff.txt (All),0.356,0.188,0.468,0.358,0.38,0.396
+Model name,Complement Naive Bayes
+CM1.arff.txt (All),0.366
 
 False Negative Rate
-Model name,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
-CM1.arff.txt (All),0.25,0.65,0.2,0.2,0.25,0.2
-JM1.arff.txt (All),0.284,0.404,0.43,0.226,0.256,0.35
-KC1.arff.txt (All),0.384,0.39,0.494,0.324,0.334,0.454
-MC2.arff.txt (All),0.316,0.484,0.716,0.35,0.35,0.55
-PC1.arff.txt (All),0.198,0.868,0.198,0.166,0.3,0.198
-PC3.arff.txt (All),0.14,0.76,0.08,0.08,0.082,0.08
+Model name,Complement Naive Bayes
+CM1.arff.txt (All),0.5
