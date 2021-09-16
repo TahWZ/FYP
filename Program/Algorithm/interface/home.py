@@ -4,7 +4,7 @@ import interface.result
 import interface.fs
 from interface.home_train import HomeTrain
 from interface.home_pred import HomePred
-#from PIL import ImageTK, Image
+from tkinter import messagebox
 
 #====================( Class )====================
 class Home:
@@ -28,7 +28,7 @@ class Home:
         command: Function to execute
         '''
         but_start = Button(self.frame_3, text="Start", width = 10, command=lambda: self.start())
-        but_quit = Button(self.frame_3, text="Exit", width = 10, command=root.quit)
+        but_quit = Button(self.frame_3, text="Exit", width = 10, command=lambda: self.exit())
         #====================( Display )====================
         '''
         @Functions
@@ -58,6 +58,11 @@ class Home:
                 self.frame_1.destroy()
                 self.frame_2.destroy()
                 self.frame_3.destroy()
+
+    def exit(self):
+        msgBox = messagebox.askquestion('Exit Application','Are you sure you want to exit this application',icon = 'warning')
+        if msgBox == 'yes':
+            self.root.quit()
 
 
 #====================( Main )====================

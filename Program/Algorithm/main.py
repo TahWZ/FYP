@@ -5,6 +5,7 @@ from interface.about import About
 from interface.report import Report
 import interface.login
 from tkinter import ttk
+from tkinter import messagebox
 from PIL import ImageTk, Image
 
 #====================( Main )====================
@@ -60,9 +61,10 @@ class Main:
         frame.pack(expand=True)
     
     def logout(self):
-        #from interface.login import Login
-        self.frame_main.destroy()
-        interface.login.Login(self.root)
+        msgBox = messagebox.askquestion('Logout','Are you sure you want to Logout?',icon = 'warning')
+        if msgBox == 'yes':
+            self.frame_main.destroy()
+            interface.login.Login(self.root)
 
 #====================( Main )====================
 if __name__=='__main__':

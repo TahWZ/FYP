@@ -31,7 +31,7 @@ class Login:
         command: Function to execute
         '''
         but_login = Button(self.frame_main, text="Login", width = 10, command=lambda: self.login())
-        but_quit = Button(self.frame_main, text="Exit", width = 10, command=root.quit)
+        but_quit = Button(self.frame_main, text="Exit", width = 10, command=lambda: self.exit())
 
         #Entry
         '''
@@ -70,6 +70,11 @@ class Login:
             self.frame_main.destroy()
             main.Main(self.root)
     
+    def exit(self):
+        msgBox = messagebox.askquestion('Exit Application','Are you sure you want to exit this application',icon = 'warning')
+        if msgBox == 'yes':
+            self.root.quit()
+
     def validate(self):
         if [self.ent_usr.get(),self.ent_pwd.get()] not in users:
             messagebox.showerror("An error occured","The username or password is incorrect")
