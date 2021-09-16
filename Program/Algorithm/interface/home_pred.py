@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 
 #====================( Class )====================
 class HomePred():
@@ -101,6 +102,7 @@ class HomePred():
         self.tabControl.grid(row = 0, column = 1)
         self.frame_main.pack(side=LEFT, fill=BOTH, pady = 10)
 
+    #====================( Transition )====================
     def result(self):
         base = []
         ensemble = []
@@ -108,11 +110,20 @@ class HomePred():
             base.append(b.get())
         for e in self.ensemble:
             ensemble.append(e.get())
-        return {
-            "base" : base,
-            'ensemble' : ensemble
-        }
-
+        if self.validate(base, ensemble):
+            return {
+                "base" : base,
+                'ensemble' : ensemble
+            }
+        else:
+            return False
+    
+    def validate(self, b, e):
+        if True in b or True in e:
+            return True
+        else:
+            messagebox.showerror("An error occured","Please select at least one prediction model")
+            return False
 
 #====================( Main )====================
 if __name__=='__main__':

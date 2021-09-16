@@ -18,9 +18,6 @@ class Home:
         self.frame_2 = Frame(root)
         self.frame_3 = Frame(root)
         #====================( Widgets )====================
-        #Label
-        #lab_1 = Label(frame_1, text="Logo", bg = "black", fg = "white", width = 80, height = 10)
-
         #Button
         '''
         @Attributes
@@ -51,30 +48,16 @@ class Home:
         self.frame_2.pack()
         self.frame_3.pack()
     
+    #====================( Transition )====================
     def start(self):
-        # fs.SM(self.root,[0,
-        #     {
-        #         "uploads" : ['D:/Computer Science/Python/test1.py','D:/Computer Science/Python/test2.py']
-        #     }]
-        #     ,
-        # self.home_pred.result(),
-        # self.home_train.result()
-        # )
-        # import os
-        # import re
-        # test_file_path = os.getcwd() + '/datasets/NASA/CM1.arff.txt'
-        # test_file_path2 = os.getcwd() + '/datasets/NASA/JM1.arff.txt'
-        # test_file_path = os.getcwd() + '\\test1.py'
-        # test_file_path = re.sub(r'\\','/',test_file_path)
-        # test_file_path2 = os.getcwd() + '\\test2.py'
-        # test_file_path2 = re.sub(r'\\','/',test_file_path2)
         home_pred_res = self.home_pred.result()
-        home_train_res = self.home_train.result()
-        # home_train_res['uploads'] = [test_file_path, test_file_path2]
-        interface.fs.SM(self.root,home_pred_res,home_train_res)
-        self.frame_1.destroy()
-        self.frame_2.destroy()
-        self.frame_3.destroy()
+        if home_pred_res: #Validation check on model selection
+            home_train_res = self.home_train.result()
+            if home_train_res: #Validation check on training settings
+                interface.fs.SM(self.root,home_pred_res,home_train_res)
+                self.frame_1.destroy()
+                self.frame_2.destroy()
+                self.frame_3.destroy()
 
 
 #====================( Main )====================

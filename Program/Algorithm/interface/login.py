@@ -4,9 +4,6 @@ from tkinter import messagebox
 import sys
 sys.path.append("..") # Adds higher directory to python modules path.
 import main
-#from home_train import HomeTrain
-#from home_pred import HomePred
-#from PIL import ImageTK, Image
 
 #====================( Users )====================
 users = [['hi','hi']]
@@ -67,16 +64,18 @@ class Login:
         #End
         self.frame_main.pack()
 
+    #====================( Transition )====================
     def login(self):
-        if [self.ent_usr.get(),self.ent_pwd.get()] not in users:
-            messagebox.showerror("An error occured","The username or password is incorrect")
-        else:
+        if self.validate():
             self.frame_main.destroy()
             main.Main(self.root)
-            #return {
-            #    'username':self.ent_usr.get(),
-            #    'password':self.ent_pwd.get()
-            #}
+    
+    def validate(self):
+        if [self.ent_usr.get(),self.ent_pwd.get()] not in users:
+            messagebox.showerror("An error occured","The username or password is incorrect")
+            return False
+        else:
+            return True
             
 
 #====================( Main )====================
