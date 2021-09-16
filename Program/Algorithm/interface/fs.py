@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from pathlib import Path 
 import interface.result as r
+from tkinter import messagebox
 #====================( Class )====================
 class SM():
     #====================( Functions )====================
@@ -11,11 +12,6 @@ class SM():
         self.datasets = []
         self.pred_res = pred_res
         self.train_res = train_res
-        # for _ in range(len(res[1]["uploads"])):
-        #     selections = []
-        #     for _ in range(3): #Three feature selection methods
-        #         selections.append(IntVar())
-        #     self.datasets.append(selections)
         for _ in range(len(train_res["uploads"])):
             selections = []
             for _ in range(3): #Three feature selection methods
@@ -26,7 +22,6 @@ class SM():
         #====================( Notebook )====================
         self.tabControl = ttk.Notebook(self.frame_main)
         #====================( Tabs )====================
-        # self.get_tabs(res[1]["uploads"])
         self.get_tabs(train_res['uploads'])
         #====================( Widgets )====================
         #Button
@@ -79,9 +74,7 @@ class SM():
             cb.grid(row = j, column = 2)
             j+=1
 
-    def read_file(self,f):
-        return [1,2,3,4,5]
-
+    #====================( Transition )====================
     def result(self):
         result = []
         for i,selections in enumerate(self.datasets):
@@ -91,15 +84,30 @@ class SM():
                     result[i].append(True)
                 else:
                     result[i].append(False)
-        #Just for transition purposes, will be changed later on
-        self.frame_main.destroy()
-        self.fs_res = {'result' : result}
-        r.Result(self.root,self.fs_res,self.pred_res,self.train_res)
-        return {
-            "result" : self.result
+        if self.validate(result):
+            self.frame_main.destroy()
+            self.fs_res = {'result' : result}
+            r.Result(self.root,self.fs_res,self.pred_res,self.train_res)
+            return {
+                "result" : self.result
     }
 
-
+    def validate(self, result):
+        for i, r in enumerate(result):
+            if True not in r:
+                if i == 0:
+                    ord_ind = "st"
+                elif i == 1: 
+                    ord_ind = "nd"
+                elif i == 2:
+                    ord_ind = "rd"
+                else:
+                    ord_ind = "th"
+                error_msg = "Please select at least one option for the " + str(i+1) + ord_ind + " dataset"
+                messagebox.showerror("An error occured",error_msg)
+                return False
+        else:
+            return True
 
 #====================( Main )====================
 if __name__=='__main__':
