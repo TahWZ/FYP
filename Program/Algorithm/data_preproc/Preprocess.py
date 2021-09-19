@@ -31,8 +31,8 @@ def Stratifid_K_fold(X,y,f=5):
     tt_splits = skf.split(X,y)
     return tt_splits
 
-def IHT(data):   
-    gauss_iht = InstanceHardnessThreshold()
+def IHT(data,k_fold):   
+    gauss_iht = InstanceHardnessThreshold(cv=k_fold)
     underX, underY = gauss_iht.fit_resample(data[0],data[1])
     return underX, underY
 
@@ -46,13 +46,30 @@ def data_conversion(data):
 
 def preprocess(data, k_fold, fs = []):
     SM = np.array(data.iloc[:,:-1]) #Software metrics
-    if fs != []:
+    if len(fs) != 0:
         SM = SM[:,fs]
     L = data_conversion(np.array(data.iloc[:,-1])).astype(int) #Labels
     tt_splits = Stratifid_K_fold(SM,L,k_fold)
+    # classes = {
+    #     '0':0,
+    #     '1':0 
+    # }
+    # percentage = {
+    #     '0':f'0%',
+    #     '1':f'0%'
+    # }
+    # for c in L:
+    #     classes[str(c)] += 1
+    #     percentage[str(c)] = f'{round((classes[str(c)]/len(L))*100,2)}%'
+    # print(f'Classes: {classes}')
+    # print(f'Percentage: {percentage}')
     #IHT
     result = []
     for train, test in tt_splits:
-        SM_under, L_under = IHT([SM[train],L[train]])
+        # print(f'Train: {train} Train Shape: {train.shape}')
+        # print(f'Test: {test} Test Shape: {test.shape}\n')
+        # print(f'SM[train]: {SM[train]}')
+        # print(f'L[train]: {L[train]}')
+        SM_under, L_under = IHT([SM[train],L[train]],k_fold)
         result.append([SM_under, SM[test], L_under, L[test]])
     return result
