@@ -101,11 +101,20 @@ def feature_selection(fs_res,loaddata,data,train_size,k_fold):
     pp_arr = []
     feature_funcs = [cfs_algo,rfe_algo]
     if fs_res[0]:
-        pp_arr.append(preprocess(loaddata,k_fold))
+        try:
+            pp_arr.append(preprocess(loaddata,k_fold))
+        except:
+            return False, 1
     for i in range(1,len(fs_res)):
         if fs_res[i]:
-            _,f_selection = feature_funcs[i-1](data,train_size)
-            pp_arr.append(preprocess(loaddata,k_fold,f_selection))
+            try:
+                _,f_selection = feature_funcs[i-1](data,train_size)
+            except:
+                return False, 2
+            try:
+                pp_arr.append(preprocess(loaddata,k_fold,f_selection))
+            except:
+                return False, 1
     return pp_arr
 
 def model_creation(base_preds,ensemble_preds,data):
@@ -131,8 +140,11 @@ def model_creation(base_preds,ensemble_preds,data):
 
 def main_algo_run(filename,fs_res,pred_res,train_res):
     # Read the file
-    loaddata = read_data(filename)
-    loaddata = Normalize(loaddata)
+    try:
+        loaddata = read_data(filename)
+        loaddata = Normalize(loaddata)
+    except:
+        return False, 0
     SM = np.array(loaddata.iloc[:,:-1]) #Software metrics
     L = data_conversion(np.array(loaddata.iloc[:,-1])).astype(int) #Labels
     data = [SM,L]
@@ -144,6 +156,8 @@ def main_algo_run(filename,fs_res,pred_res,train_res):
     train_size = int(train_res['tt']) if not train_res['tt'] == '' else 10
     k_fold = int(train_res['kfold']) if not train_res['kfold'] == '' else 5
     pp_arr = feature_selection(fs_res,loaddata,data,train_size,k_fold)
+    if len(pp_arr) == 2 and pp_arr[0] == False:
+        return pp_arr[0], pp_arr[1]
     base_preds = [i for i,pred in enumerate(pred_res['base']) if pred == 1]
     ensemble_preds = [i for i,pred in enumerate(pred_res['ensemble']) if pred == 1]
     model_name = [lookup_model[index] for index in base_preds] + [lookup_model[index+5] for index in ensemble_preds]
@@ -155,7 +169,7 @@ def main_algo_run(filename,fs_res,pred_res,train_res):
     fpr_arr = [0]*arr_size
     fnr_arr = [0]*arr_size
     header = []
-    folds = 5
+    folds = k_fold
     for j,pp in enumerate(pp_arr):
         for i in range(folds):
             data = [pp[i][0],pp[i][2]]
@@ -163,7 +177,6 @@ def main_algo_run(filename,fs_res,pred_res,train_res):
             for k in range(len(models)):
                 auc_score,f1_score,fpr,fnr = evaluate_data(models[k],pp[i][1],pp[i][3])
                 if math.isnan(auc_score):
-                    #print(model_name[k], auc_score)
                     auc_score = 0
                 auc_arr[(j*len(model_name))+k] += auc_score
                 f1_arr[(j*len(model_name))+k] += f1_score
@@ -193,8 +206,6 @@ if __name__=='__main__':
                    'KC4.arff','MC1.arff','MC2.arff','MW1.arff',
                    'PC1.arff','PC2.arff','PC3.arff','PC4.arff','PC5.arff']
     P_filenames = ['cm1.arff','jm1.arff','kc1.arff','kc2.arff','pc1.arff']
-    #run(N_filenames,'NASA.csv','NASA')
-    #run(P_filenames,'PROMISE.csv','PROMISE')
     #========== Running main program =========#
     result, header = main_algo_run('datasets/NASA/CM1.arff.txt')
     main_writer(header,result)

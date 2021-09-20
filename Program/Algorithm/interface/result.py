@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 sys.path.append("..") # Adds higher directory to python modules path.
-import jupyter_import
+from tkinter import messagebox
 import main_program
 import os
 
@@ -81,17 +81,14 @@ class Result():
         #Remaining
         button_goback.pack()
         self.backbutton.pack()
-        self.run_algo()
-        self.run_csv()
-        self.table()
-        self.frame_table.pack()
-        self.tabControl.grid(row = 0, column = 1)
-        self.frame_main.pack(fill=BOTH, pady = 10)
+        if self.run_algo():
+            self.run_csv()
+            self.table()
+            self.frame_table.pack()
+            self.tabControl.grid(row = 0, column = 1)
+            self.frame_main.pack(fill=BOTH, pady = 10)
 
     def run_algo(self):
-        # print(self.fs_res)
-        # print(self.pred_res)
-        # print(self.train_res)
         self.filenames = []
         self.results = []
         self.pp_names = []
@@ -99,17 +96,41 @@ class Result():
             fs_res = self.fs_res['result'][i]
             pos = filename.rfind('/')
             self.filenames.append(filename[pos+1:])
-            self.model_name, pp_name, result = main_program.main_algo_run(filename,fs_res,self.pred_res,self.train_res)
+            try:
+                main_res = main_program.main_algo_run(filename,fs_res,self.pred_res,self.train_res)
+            except Exception as e:
+                return self.main_error(3, i, e)
+            if len(main_res)==2 and main_res[0] == False:
+                return self.main_error(main_res[1], i)
+            self.model_name, pp_name, result = main_res
             self.results.append(result)
             self.pp_names.append(pp_name)
-            # print("*"*50)
-            # print(filename[pos+1:])
-            # print("*"*50)
-            # print(self.model_name)
-            # print("*"*50)
-            # print(pp_name)
-            # print("*"*50)
-            # print(result)
+        return True
+
+    def main_error(self, error_type, ds_number, error_msg = ""):
+        if ds_number == 0:
+            ord_ind = "st"
+        elif ds_number == 1: 
+            ord_ind = "nd"
+        elif ds_number == 2:
+            ord_ind = "rd"
+        else:
+            ord_ind = "th"
+        #Error type 0: Invalid dataset
+        if error_type == 0:
+            error_msg = "The " + str(ds_number+1) + ord_ind + " dataset is invalid"
+        #Error type 1: Invalid k-fold
+        elif error_type == 1:
+            error_msg = "The number of folds is less than the number of samples in the " + str(ds_number+1) + ord_ind + " dataset"
+        #Error type 2: Invalid feature reduction
+        elif error_type == 2:
+            error_msg = "The " + str(ds_number+1) + ord_ind + " dataset has less features than the number of features to be reduced"
+        #Error type 3: Unknown error
+        elif error_type == 3:
+            error_msg = "An unknown error occured when processing the " + str(ds_number+1) + ord_ind + " dataset, the error message is as followed\n" + error_msg
+        messagebox.showerror("An error occured",error_msg)
+        return False
+
 
     def run_csv(self):
         self.csv_filename = self.train_res['pfn']
@@ -183,34 +204,17 @@ class Result():
         flatten_list = [item for items in score for item in items]
         n = len(self.model_name)
         new_score = [flatten_list[i:i+n] for i in range(0,len(flatten_list),n)]
-
-        #Transpose
-        #new_score = np.array(new_score).transpose().tolist()
-        
-        #print('%'*50)
-        #print(name)
-        #print(self.model_name)
-        #print(labels)
-        # print(new_score)
-        ypos = np.arange(len(self.model_name))
-        #print('%'*50)
-
-        bar_width = 0.25
-
         def sub_bar(x,vals,width=0.8):
             n = len(vals)
             xpos = np.arange(len(x))
             colors = []
-            #ax.set_xticks(xpos)
-            #ax.set_xticklabels(self.model_name, rotation=30)
-            plt.xticks(xpos, self.model_name)#, rotation = 30)
+            plt.xticks(xpos, self.model_name)
             for i in range(n):
                 temp = plt.bar(xpos - width/2 + i/float(n)*width, vals[i],
                         width=width/float(n),align='edge')
                 colors.append(temp.patches[0].get_facecolor())
             handles = [plt.Rectangle((0,0),1,1, color=col) for col in colors]
             plt.legend(handles, labels)
-            #print(colors)
         sub_bar(self.model_name,new_score)
         plt.show()
         pass
@@ -220,44 +224,13 @@ class Result():
         plt.close('all')
         labels = []
         data = []
-        #auc_data = []
-        #f1_data = []
-        #fpr_data = []
-        #fnr_data = []
         for k in range(len(self.filenames)):
-            #auc_data.append(self.results[k][0][1])
-            #f1_data.append(self.results[k][1][1])
-            #fpr_data.append(self.results[k][2][1])
-            #fnr_data.append(self.results[k][3][1])
             data.append(self.results[k][score][1])
-            
             for i in range(len(self.pp_names[k])):
                 labels.append(f'{self.filenames[k]} ({self.pp_names[k][i]})')
-        #print(labels)
-        #print(self.auc_name)
         plt.title(['AUC','F1 score','False Positive Rate','False Negative Rate'][score])
         plt.ylim(0,1)
         self.create_bars(data,labels)
-
-
-        # name = ['DT','lR','MLP','NB']
-        # temp1 = [90,20,21,22]
-        # temp2 = [60,70,100,89]
-        # ypos = np.arange(len(name))
-        # #plt.legend(labels=["a","b"])
-        # plt.subplot(1,2,1) #row, column, position
-        # plt.xticks(ypos, name)
-        # plt.title('AUC-score')
-        # plt.xlabel('Model')
-        # plt.ylabel('Score')
-        # plt.bar(ypos,temp1,color='blue')
-        # plt.subplot(1,2,2) #row, column, position
-        # plt.xticks(ypos, name)
-        # plt.title('F1-score')
-        # plt.xlabel('Model')
-        # plt.ylabel('Score')
-        # plt.bar(ypos,temp2,color='orange')
-        #plt.show()
     
     def back(self):
         self.frame_main.destroy()
