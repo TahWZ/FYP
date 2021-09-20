@@ -22,7 +22,7 @@ np.seterr(divide='ignore', invalid='ignore')
 class Preprocess_Test(unittest.TestCase):
 
     def setUp(self):
-        filename = 'test1.arff.txt'
+        filename = 'test5.arff.txt'
         data = arff.loadarff(filename)
         self.loaddata = pd.DataFrame(data[0])
         self.loaddata = Normalize(self.loaddata)
