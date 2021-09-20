@@ -110,7 +110,7 @@ def feature_selection(fs_res,loaddata,data,train_size,k_fold):
 
 def model_creation(base_preds,ensemble_preds,data):
     models = []
-    args = [1000]
+    args = [108]
     base_funcs = [
         complement_naive_bayes_model,
         decision_tree_model,

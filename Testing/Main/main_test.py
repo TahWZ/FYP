@@ -1,14 +1,18 @@
 import sys
 import unittest
 sys.path.append("../../Program/Algorithm") #Adds directory containing jupyter import and module to test
-
-from main_program import read_data, process_data, data_conversion, evaluate_data, run, feature_selection, model_creation, main_algo_run
+import warnings # Suppress Warnings
+from main_program import read_data, run, process_data, data_conversion, evaluate_data, run, feature_selection, model_creation, main_algo_run
 #========== For tests setup ==========
 from scipy.io import arff
+from pf_eval.AUC_ROC import auc_roc_model
+from pf_eval.F1_Score import f1_model
+from pf_eval.Confusion_Matrix import confusion_matrix_model
 import pandas as pd
+import sklearn
 import numpy as np
 
-class main_test_1(unittest.TestCase):
+class main_test_1():
     #Test suite 1
 
     def test1(self):
@@ -68,9 +72,10 @@ class main_test_1(unittest.TestCase):
         self.assertEqual(len(SM.tolist()), 125)
         self.assertEqual(len(L.tolist()), 125)
 
-class main_test_2(unittest.TestCase):
+class main_test_2():
     #Test suite 2
     def setUp(self):
+        warnings.simplefilter('ignore')
         self.loaddata1 = read_data("test3.arff.txt")
         #Extracted from function
         SM = np.array(self.loaddata1.iloc[:,:-1]) 
@@ -88,7 +93,7 @@ class main_test_2(unittest.TestCase):
         Test case ID: 1
         '''
         try:
-            feature_selection([True]*3, self.loaddata1, self.data1, 6, 5)
+            feature_selection([True]*3, self.loaddata1, self.data1, 6, 3)
         except:
             assert False, "Feature selection failed for processed data"
 
@@ -97,34 +102,57 @@ class main_test_2(unittest.TestCase):
         Test suite: 2
         Test case ID: 2
         '''
-        try:
-            feature_selection([True]*3, self.loaddata1, self.data1, 3, 4)
-        except:
-            assert False, "Feature selection failed for processed data"
+        res = feature_selection([False, True, False], self.loaddata1, self.data1, 6, 3)
+        assert len(res) == 1, "Feature selection failed to select the appropriate feature selection techniques (Single)"
 
     def test3(self):
         '''
         Test suite: 2
-        Test case ID: 1
+        Test case ID: 3
+        '''
+        res = feature_selection([False,True, True], self.loaddata1, self.data1, 6, 3)
+        assert len(res) == 2, "Feature selection failed to select the appropriate feature selection techniques (Multiple)"
+
+    def test4(self):
+        '''
+        Test suite: 2
+        Test case ID: 4
+        '''
+        res = feature_selection([True, False, False], self.loaddata1, self.data1, 6, 4) #The fold argument was set to 4
+        for r in res:
+            assert len(r[0]) == 4 and len(r[1]) == 4, "Feature selection's K-fold argument failed to be read by the preprocessing algorithm"
+
+    def test5(self):
+        '''
+        Test suite: 2
+        Test case ID: 5
+        '''
+        res = feature_selection([True]*3, self.loaddata1, self.data1, 3, 3) #The train argument was set 3
+        for r in res[1:3]:
+            assert len(r[0][0][0]) == 3 , "Feature selection's training argument failed to be read by the preprocessing algorithm"
+
+    def test6(self):
+        '''
+        Test suite: 2
+        Test case ID: 6
         '''
         try:
-            feature_selection([False,True,False], self.loaddata1, self.data1, 4, 4)
+            feature_selection([True]*3, self.loaddata2, self.data2, 6, 3)
         except:
-            assert False, "Feature selection failed for processed data"
+            assert False, "Feature selection failed for processed data on actual dataset"
 
-class main_test_3(unittest.TestCase):
+class main_test_3():
     #Test suite 3
     def setUp(self):
-        self.loaddata1 = read_data("test3.arff.txt")
+        warnings.simplefilter('ignore')
+        loaddata1 = read_data("test3.arff.txt")
         #Extracted from function
-        SM = np.array(self.loaddata1.iloc[:,:-1]) 
-        L = data_conversion(np.array(self.loaddata1.iloc[:,-1])).astype(int)
-        self.data1 = [SM, L]
-        self.loaddata2 = read_data("test2.arff.txt")
-        #Extracted from function
-        SM = np.array(self.loaddata2.iloc[:,:-1]) 
-        L = data_conversion(np.array(self.loaddata2.iloc[:,-1])).astype(int)
-        self.data2 = [SM, L]
+        SM = np.array(loaddata1.iloc[:,:-1]) 
+        L = data_conversion(np.array(loaddata1.iloc[:,-1])).astype(int)
+        data1 = [SM, L]
+        self.all_data = feature_selection([True,False,False], loaddata1, data1, 6, 3)[0]
+        self.cfs_data = feature_selection([False,True,False], loaddata1, data1, 6, 3)[0]
+        self.rfe_data = feature_selection([False,False,True], loaddata1, data1, 6, 3)[0]
 
     def test1(self):
         '''
@@ -132,29 +160,137 @@ class main_test_3(unittest.TestCase):
         Test case ID: 1
         '''
         try:
-            feature_selection([True]*3, self.loaddata1, self.data1, 6, 5)
+            data = [self.all_data[0][0], self.all_data[0][2]]
+            models = model_creation([0,1,2,3,4], [0,1,2], data)
         except:
-            assert False, "Feature selection failed for processed data"
-
+            assert False, "Model creation failed to fit data with all its original metrics"
+    
     def test2(self):
         '''
         Test suite: 3
         Test case ID: 2
         '''
         try:
-            feature_selection([True]*3, self.loaddata1, self.data1, 3, 4)
+            data = [self.cfs_data[0][0], self.cfs_data[0][2]]
+            models = model_creation([0,1,2,3,4], [0,1,2], data)
         except:
-            assert False, "Feature selection failed for processed data"
-
+            assert False, "Model creation failed to fit data reduced using CFS"
+    
     def test3(self):
         '''
         Test suite: 3
         Test case ID: 3
         '''
         try:
-            feature_selection([False,True,False], self.loaddata1, self.data1, 4, 4)
+            data = [self.rfe_data[0][0], self.rfe_data[0][2]]
+            models = model_creation([0,1,2,3,4], [0,1,2], data)
         except:
-            assert False, "Feature selection failed for processed data"
+            assert False, "Model creation failed to fit data reduced using RFE"
+    
+    def test4(self):
+        '''
+        Test suite: 3
+        Test case ID: 4
+        '''
+        data = [self.rfe_data[0][0], self.rfe_data[0][2]]
+        models = model_creation([0,3], [], data)
+        check1 = isinstance(models[0], sklearn.naive_bayes.ComplementNB)
+        check2 = isinstance(models[1], sklearn.neural_network.MLPClassifier)
+        assert check1 and check2, "Model creation failed to build the correct base prediction models"
+    
+    def test5(self):
+        '''
+        Test suite: 3
+        Test case ID: 5
+        '''
+        data = [self.rfe_data[0][0], self.rfe_data[0][2]]
+        models = model_creation([], [0], data)
+        check = isinstance(models[0], sklearn.ensemble.RandomForestClassifier)
+        assert check, "Model creation failed to build the correct ensemble prediction models"
+    
+    def test1(self):
+        '''
+        Test suite: 3
+        Test case ID: 1
+        '''
+        data = [self.all_data[0][0], self.all_data[0][2]]
+        models = model_creation([0,1,2,3,4], [0,1,2], data)
+        for m in models:
+            assert hasattr(m, 'predict'), "One or more models from Model creation has no predict() function"
+    
+class main_test_4():
+    #Test suite 4
+    def setUp(self):
+        warnings.simplefilter('ignore')
+        loaddata1 = read_data("test3.arff.txt")
+        #Extracted from function
+        SM = np.array(loaddata1.iloc[:,:-1]) 
+        L = data_conversion(np.array(loaddata1.iloc[:,-1])).astype(int)
+        data1 = [SM, L]
+        fs_data = feature_selection([True,False,False], loaddata1, data1, 6, 3)[0]
+        train = [fs_data[0][0],fs_data[0][2]]
+        self.test_m = fs_data[0][1]
+        self.test_l = fs_data[0][3]
+        self.test_model = model_creation([1], [], train)[0]
+
+    def test1(self):
+        '''
+        Test suite: 4
+        Test case ID: 1
+        '''
+        try:
+            evaluate_data(self.test_model, self.test_m, self.test_l)
+        except:
+            assert False, "Evaluation method fail to run"
+
+    def test2(self):
+        '''
+        Test suite: 4
+        Test case ID: 2
+        '''
+        res = evaluate_data(self.test_model, self.test_m, self.test_l)
+        assert len(res)==4, "Evaluation method returns the wrong number of results"
+    
+    def test3(self):
+        '''
+        Test suite: 4
+        Test case ID: 3
+        '''
+        res = evaluate_data(self.test_model, self.test_m, self.test_l)
+        for i in range(len(res)):
+            assert res[i]<=1, "Evaluation method returns incorrect results"
+
+    def test4(self):
+        '''
+        Test suite: 4
+        Test case ID: 4
+        '''
+        res = evaluate_data(self.test_model, self.test_m, self.test_l)
+        exp_res = [] #Expected result
+        exp_res.append(auc_roc_model(self.test_model, self.test_m, self.test_l))
+        exp_res.append(f1_model(self.test_model, self.test_m, self.test_l))
+        exp_res.extend(confusion_matrix_model(self.test_model, self.test_m, self.test_l))
+        for i in range(len(exp_res)):
+            assert exp_res[i]==res[i], "Evaluation method returns the correct results but in the wrong order"
+
+class main_test_5(unittest.TestCase):
+    #Test suite 5
+    def setUp(self):
+        warnings.simplefilter('ignore')
+
+    def test1(self):
+        '''
+        Test suite: 5
+        Test case ID: 1
+        '''
+        
+        main_algo_run("test3.arff.txt",[True, True, True], {
+            "base": [1,1,1,1,1],
+            "ensemble": [1,1,1]
+        }, {
+            "tt": 6,
+            "kfold": 3
+        })
 
 #====================( Main )====================
 if __name__=='__main__':
