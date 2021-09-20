@@ -121,13 +121,13 @@ class Result():
             error_msg = "The " + str(ds_number+1) + ord_ind + " dataset is invalid"
         #Error type 1: Invalid k-fold
         elif error_type == 1:
-            error_msg = "The number of folds is less than the number of samples in the " + str(ds_number+1) + ord_ind + " dataset"
+            error_msg = "There are insufficient samples in the " + str(ds_number+1) + ord_ind + " dataset (Lowering the folds may also be a valid fix)"
         #Error type 2: Invalid feature reduction
         elif error_type == 2:
             error_msg = "The " + str(ds_number+1) + ord_ind + " dataset has less features than the number of features to be reduced"
         #Error type 3: Unknown error
         elif error_type == 3:
-            error_msg = "An unknown error occured when processing the " + str(ds_number+1) + ord_ind + " dataset, the error message is as followed\n" + error_msg
+            error_msg = "An unknown error occured when processing the " + str(ds_number+1) + ord_ind + " dataset, the error message is as followed: " + error_msg
         messagebox.showerror("An error occured",error_msg)
         return False
 

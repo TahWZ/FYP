@@ -40,11 +40,11 @@ class HomeTrain():
         borderwidth: the border's width size
         '''
         self.ent_tt = Entry(self.frame_main, width=5) #Feature reduction
-        CreateToolTip(self.ent_tt, "The number of features to reduce from the feature selection algorithm")
+        CreateToolTip(self.ent_tt, "The number of features to reduce from the feature selection algorithm (1-20)")
         self.ent_pfn = Entry(self.frame_main, width=20)#Prediction file name
         CreateToolTip(self.ent_pfn, "The name of the output csv file")
         self.ent_kfold = Entry(self.frame_main, width = 5) # K Fold
-        CreateToolTip(self.ent_kfold, "The number of folds in K-fold cross-validation")
+        CreateToolTip(self.ent_kfold, "The number of folds in K-fold cross-validation (2-20)")
 
         #Listbox
         self.lb_upload = Listbox(self.frame_main, width=40, selectmode="multiple")
@@ -107,14 +107,14 @@ class HomeTrain():
         if not self.ent_tt.get().isdigit(): #Check feature reduction
             messagebox.showerror("An error occured","Invalid value for feature reduction")
             return False
-        elif int(self.ent_tt.get()) > 20:
-            messagebox.showerror("An error occured","Feature reduction value should be between 0 and 20")
+        elif int(self.ent_tt.get()) > 20 or int(self.ent_tt.get()) < 1:
+            messagebox.showerror("An error occured","Feature reduction value should be between 1 and 20")
             return False
         elif not self.ent_kfold.get().isdigit(): #Check k-fold input
             messagebox.showerror("An error occured","Invalid value for k-fold")
             return False
-        elif int(self.ent_kfold.get()) > 20: 
-            messagebox.showerror("An error occured","Number of folds should be between 0 and 20")
+        elif int(self.ent_kfold.get()) > 20 or int(self.ent_kfold.get()) < 2: 
+            messagebox.showerror("An error occured","Number of folds should be between 2 and 20")
             return False
         elif self.lb_upload.size() == 0: #Check uploaded dataset
             messagebox.showerror("An error occured","Please upload at least one dataset")
