@@ -12,7 +12,7 @@ import pandas as pd
 import sklearn
 import numpy as np
 
-class main_test_1():
+class main_test_1(unittest.TestCase):
     #Test suite 1
 
     def test1(self):
@@ -72,7 +72,7 @@ class main_test_1():
         self.assertEqual(len(SM.tolist()), 125)
         self.assertEqual(len(L.tolist()), 125)
 
-class main_test_2():
+class main_test_2(unittest.TestCase):
     #Test suite 2
     def setUp(self):
         warnings.simplefilter('ignore')
@@ -136,12 +136,28 @@ class main_test_2():
         Test suite: 2
         Test case ID: 6
         '''
+        res = feature_selection([True]*3, self.loaddata1, self.data1, 6, 10000)
+        assert res[0]==False and res[1]==1, "Feature selection failed to handle invalid k-fold argument"
+    
+    def test7(self):
+        '''
+        Test suite: 2
+        Test case ID: 7
+        '''
+        res = feature_selection([True]*3, self.loaddata1, self.data1, 10000, 3)
+        assert res[0]==False and res[1]==2, "Feature selection failed to handle invalid train argument"
+    
+    def test8(self):
+        '''
+        Test suite: 2
+        Test case ID: 8
+        '''
         try:
             feature_selection([True]*3, self.loaddata2, self.data2, 6, 3)
         except:
             assert False, "Feature selection failed for processed data on actual dataset"
 
-class main_test_3():
+class main_test_3(unittest.TestCase):
     #Test suite 3
     def setUp(self):
         warnings.simplefilter('ignore')
@@ -161,7 +177,7 @@ class main_test_3():
         '''
         try:
             data = [self.all_data[0][0], self.all_data[0][2]]
-            models = model_creation([0,1,2,3,4], [0,1,2], data)
+            model_creation([0,1,2,3,4], [0,1,2], data)
         except:
             assert False, "Model creation failed to fit data with all its original metrics"
     
@@ -172,7 +188,7 @@ class main_test_3():
         '''
         try:
             data = [self.cfs_data[0][0], self.cfs_data[0][2]]
-            models = model_creation([0,1,2,3,4], [0,1,2], data)
+            model_creation([0,1,2,3,4], [0,1,2], data)
         except:
             assert False, "Model creation failed to fit data reduced using CFS"
     
@@ -183,7 +199,7 @@ class main_test_3():
         '''
         try:
             data = [self.rfe_data[0][0], self.rfe_data[0][2]]
-            models = model_creation([0,1,2,3,4], [0,1,2], data)
+            model_creation([0,1,2,3,4], [0,1,2], data)
         except:
             assert False, "Model creation failed to fit data reduced using RFE"
     
@@ -208,17 +224,17 @@ class main_test_3():
         check = isinstance(models[0], sklearn.ensemble.RandomForestClassifier)
         assert check, "Model creation failed to build the correct ensemble prediction models"
     
-    def test1(self):
+    def test6(self):
         '''
         Test suite: 3
-        Test case ID: 1
+        Test case ID: 6
         '''
         data = [self.all_data[0][0], self.all_data[0][2]]
         models = model_creation([0,1,2,3,4], [0,1,2], data)
         for m in models:
             assert hasattr(m, 'predict'), "One or more models from Model creation has no predict() function"
     
-class main_test_4():
+class main_test_4(unittest.TestCase):
     #Test suite 4
     def setUp(self):
         warnings.simplefilter('ignore')
@@ -258,7 +274,7 @@ class main_test_4():
         '''
         res = evaluate_data(self.test_model, self.test_m, self.test_l)
         for i in range(len(res)):
-            assert res[i]<=1, "Evaluation method returns incorrect results"
+            assert res[i]<=1 and res[i] >= 0, "Evaluation method returns incorrect results"
 
     def test4(self):
         '''
@@ -283,14 +299,180 @@ class main_test_5(unittest.TestCase):
         Test suite: 5
         Test case ID: 1
         '''
-        
-        main_algo_run("test3.arff.txt",[True, True, True], {
+        fs = [True, True, True]
+        pred_res = {
             "base": [1,1,1,1,1],
             "ensemble": [1,1,1]
-        }, {
+        }
+        train_res = {
             "tt": 6,
             "kfold": 3
-        })
+        }
+        try:
+            main_algo_run("test3.arff.txt",fs, pred_res ,train_res)
+        except:
+            assert False, "The test failed"
+
+    def test2(self):
+        '''
+        Test suite: 5
+        Test case ID: 2
+        '''
+        fs = [True, False, True]
+        pred_res = {
+            "base": [1,0,0,0,0],
+            "ensemble": [0,0,0]
+        }
+        train_res = {
+            "tt": 1,
+            "kfold": 2
+        }
+        res = main_algo_run("test3.arff.txt",fs, pred_res ,train_res)
+    
+    def test3(self):
+        '''
+        Test suite: 5
+        Test case ID: 3
+        '''
+        fs = [True, False, True]
+        pred_res = {
+            "base": [1,0,0,0,0],
+            "ensemble": [0,0,0]
+        }
+        train_res = {
+            "tt": 4,
+            "kfold": 4
+        }
+        res = main_algo_run("test3.arff.txt",fs, pred_res ,train_res)
+        assert res[0] == ['Complement Naive Bayes'], "Main algorithm failed to build the correct base models"
+
+    def test4(self):
+        '''
+        Test suite: 5
+        Test case ID: 4
+        '''
+        fs = [False, True, True]
+        pred_res = {
+            "base": [0,0,0,0,0],
+            "ensemble": [1,0,0]
+        }
+        train_res = {
+            "tt": 5,
+            "kfold": 5
+        }
+        res = main_algo_run("test3.arff.txt",fs, pred_res ,train_res)
+        assert res[0] == ['Random Forest'], "Main algorithm failed to build the correct ensemble models"
+    
+    def test5(self):
+        '''
+        Test suite: 5
+        Test case ID: 5
+        '''
+        fs = [False, True, True]
+        pred_res = {
+            "base": [0,0,0,0,0],
+            "ensemble": [1,1,1]
+        }
+        train_res = {
+            "tt": '5',
+            "kfold": '5'
+        }
+        try:
+            res = main_algo_run("test3.arff.txt",fs, pred_res ,train_res)
+        except:
+            assert False, "Main program failed to handle string inputs for training settings"
+    
+    def test6(self):
+        '''
+        Test suite: 5
+        Test case ID: 6
+        '''
+        fs = [True, False, True]
+        pred_res = {
+            "base": [1,0,0,0,0],
+            "ensemble": [0,0,0]
+        }
+        train_res = {
+            "tt": 4,
+            "kfold": 4
+        }
+        res = main_algo_run("test3.arff.txt",fs, pred_res ,train_res)
+        assert res[1] == ['All','RFE'], "Main algorithm failed to identify the correct feature selection methods to use"
+    
+    def test7(self):
+        '''
+        Test suite: 5
+        Test case ID: 7
+        '''
+        fs = [False, True, True]
+        pred_res = {
+            "base": [0,0,0,0,0],
+            "ensemble": [1,1,1]
+        }
+        train_res = {
+            "tt": '1000',
+            "kfold": '5'
+        }
+        res = main_algo_run("test3.arff.txt",fs, pred_res ,train_res)
+        assert not res[0] and res[1] == 2,"Main algorithm failed to recognize invalid input for train size"
+
+    def test8(self):
+        '''
+        Test suite: 5
+        Test case ID: 8
+        '''
+        fs = [False, True, True]
+        pred_res = {
+            "base": [0,0,0,0,0],
+            "ensemble": [1,1,1]
+        }
+        train_res = {
+            "tt": '5',
+            "kfold": '10000'
+        }
+        res = main_algo_run("test3.arff.txt",fs, pred_res ,train_res)
+        assert not res[0] and res[1] == 1,"Main algorithm failed to recognize invalid input for k-fold"
+
+    def test9(self):
+        '''
+        Test suite: 5
+        Test case ID: 9
+        '''
+        fs = [False, True, True]
+        pred_res = {
+            "base": [1,1,1,1,1],
+            "ensemble": [1,1,1]
+        }
+        train_res = {
+            "tt": '1',
+            "kfold": '2'
+        }
+        try:
+            res = main_algo_run("fail1.arff.txt",fs, pred_res ,train_res)
+            assert not res[0] and res[1] == 0,"Main algorithm failed to recognize invalid dataset"
+        except:
+            pass
+    
+    def test10(self):
+        '''
+        Test suite: 5
+        Test case ID: 10
+        '''
+        fs = [False, True, True]
+        pred_res = {
+            "base": [0,1,0,0,0],
+            "ensemble": [1,0,1]
+        }
+        train_res = {
+            "tt": '5',
+            "kfold": '3'
+        }
+        try:
+            mod_name, pp_name, res = main_algo_run("test3.arff.txt",fs, pred_res ,train_res)
+            run(["Testfile"],"Testsavename",[res],mod_name,[pp_name])
+            #Check the output folder to see if the csv was correctly created
+        except:
+            assert False, "Main algorithm failed to produce CSV file"
 
 #====================( Main )====================
 if __name__=='__main__':
