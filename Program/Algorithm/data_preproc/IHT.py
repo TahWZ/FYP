@@ -2,10 +2,15 @@
 from imblearn.under_sampling import InstanceHardnessThreshold
 
 #==== Functions ====#
-def iht(data):   
-    under_iht = InstanceHardnessThreshold()
-    underX, underY = under_iht.fit_resample(data[0],data[1])
-    return underX, underY
+def iht(data, k_fold):   
+    while k_fold >= 2:
+        try:
+            gauss_iht = InstanceHardnessThreshold(cv=k_fold)
+            underX, underY = gauss_iht.fit_resample(data[0],data[1])
+            return underX, underY
+        except:
+            k_fold -= 1
+    return data[0],data[1]
 
 def data_conversion(data_column):
     for i in range(len(data_column)):
