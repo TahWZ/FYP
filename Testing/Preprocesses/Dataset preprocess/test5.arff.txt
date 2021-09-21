@@ -1,0 +1,32 @@
+@relation 'test1'
+
+@attribute metric1 numeric
+@attribute metric2 numeric
+@attribute metric3 numeric
+@attribute metric4 numeric
+@attribute metric5 numeric
+@attribute metric6 numeric
+@attribute label {Y,N}
+
+@data
+0,0,0,1,1,1,Y
+0,0,0,1,1,1,Y
+0,0,0,1,1,1,Y
+0,0,0,1,1,1,Y
+0,0,0,1,1,1,Y
+0,0,0,1,1,1,Y
+0,0,0,1,1,1,Y
+0,0,0,1,1,1,Y
+0,0,0,1,1,1,N
+0,0,0,1,1,1,N
+0,0,0,1,1,1,N
+0,0,0,1,1,1,N
+0,0,0,1,1,1,Y
+0,0,0,1,1,1,Y
+0,0,0,1,1,1,Y
+0,0,0,1,1,1,N
+0,0,0,1,1,1,N
+0,0,0,1,1,1,N
+0,0,0,1,1,1,N
+0,0,0,1,1,1,N
+0,0,0,1,1,1,N
