@@ -119,8 +119,8 @@ class HomeTrain():
         elif self.lb_upload.size() == 0: #Check uploaded dataset
             messagebox.showerror("An error occured","Please upload at least one dataset")
             return False
-        elif self.ent_pfn == "": #Check prediction file name
-            messagebox.showerror("An error occured","Please enter a filename for the result")
+        elif self.ent_pfn.get() == "": #Check prediction file name
+            messagebox.showerror("An error occured","Please enter a filename")
             return False
         else:
             return True
