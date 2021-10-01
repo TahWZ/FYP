@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from pathlib import Path 
 import interface.result as r
+import interface.home
 from tkinter import messagebox
 #====================( Class )====================
 class SM():
@@ -19,6 +20,7 @@ class SM():
             self.datasets.append(selections)
         #====================( Main Frame )====================
         self.frame_main = LabelFrame(fs, text="Feature selection menu", padx = 10, pady = 10)
+        self.backbutton = Frame(fs)
         #====================( Notebook )====================
         self.tabControl = ttk.Notebook(self.frame_main)
         #====================( Tabs )====================
@@ -34,6 +36,7 @@ class SM():
         command: Function to execute
         '''
         but_sm_run = Button(self.frame_main, text="Run", command = lambda: self.result())#, command=lambda: self.remove())
+        button_goback = Button(self.backbutton, text = "Go Back", width = 10, command = lambda: self.back())
         #====================( Display )====================
         '''
         @Functions
@@ -41,6 +44,8 @@ class SM():
         .grid(row, column, columnspan)
         '''
         self.tabControl.pack()
+        button_goback.pack()
+        self.backbutton.pack()
         self.frame_main.pack(fill=BOTH, pady = 10)
         but_sm_run.pack()
 
@@ -108,6 +113,11 @@ class SM():
                 return False
         else:
             return True
+
+    def back(self):
+        self.frame_main.destroy()
+        self.backbutton.destroy()
+        interface.home.Home(self.root)
 
 #====================( Main )====================
 if __name__=='__main__':
