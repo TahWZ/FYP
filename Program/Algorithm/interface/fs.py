@@ -90,6 +90,7 @@ class SM():
                 else:
                     result[i].append(False)
         if self.validate(result):
+            self.backbutton.destroy()
             self.frame_main.destroy()
             self.fs_res = {'result' : result}
             r.Result(self.root,self.fs_res,self.pred_res,self.train_res)

@@ -1,19 +1,19 @@
 AUC
 Model name,Decision Tree,Random Forest,Voting
-Testfile (CFS),0.933,0.933,1.0
-Testfile (RFE),0.911,1.0,0.939
+Testfile (CFS),0.933,0.933,0.983
+Testfile (RFE),1.0,1.0,1.0
 
 F1 Score
 Model name,Decision Tree,Random Forest,Voting
-Testfile (CFS),0.933,0.867,0.867
-Testfile (RFE),0.896,0.896,0.79
+Testfile (CFS),0.933,0.896,0.896
+Testfile (RFE),1.0,0.896,0.896
 
 False Positive Rate
 Model name,Decision Tree,Random Forest,Voting
-Testfile (CFS),0.133,0.267,0.267
-Testfile (RFE),0.177,0.177,0.177
+Testfile (CFS),0.133,0.2,0.2
+Testfile (RFE),0.0,0.2,0.2
 
 False Negative Rate
 Model name,Decision Tree,Random Forest,Voting
 Testfile (CFS),0.0,0.0,0.0
-Testfile (RFE),0.0,0.0,0.167
+Testfile (RFE),0.0,0.0,0.0
