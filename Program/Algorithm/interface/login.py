@@ -6,7 +6,7 @@ sys.path.append("..") # Adds higher directory to python modules path.
 import main
 
 #====================( Users )====================
-users = [['hi','hi']]
+users = [['hi','hi'],['FIT3162','FYProx'],['wtah','wtah0001']]
 
 #====================( Class )====================
 class Login:
