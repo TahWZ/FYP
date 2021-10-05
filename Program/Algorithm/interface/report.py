@@ -31,7 +31,7 @@ class Report:
         '''
         but_view1 = Button(self.frame_main, text="View", width = 10, command=lambda: self.view())
         but_view2 = Button(self.frame_main, text="View", width = 10, command=lambda: self.view())
-        
+        self.pdf = None
         #====================( Display )====================
         '''
         @Functions
@@ -46,10 +46,19 @@ class Report:
         #End
         self.frame_main.pack()
 
+    def create_view(self):
+        self.view_ = Frame(self.frame_main)
+        self.pdf = PDF(self.view_)
+        self.view_.grid(row=3, column= 1, columnspan = 2)
+
     def view(self):
-        view = Frame(self.frame_main)
-        PDF(view)
-        view.grid(row=3, column= 1, columnspan = 2)
+        # If there is no exisiting pdf (create a new frame)
+        if self.pdf is None:
+            self.create_view()
+        else:
+            # Resets the pdf view if there is an exisiting pdf
+            self.pdf.reset_view()
+            self.create_view()
             
 
 #====================( Main )====================

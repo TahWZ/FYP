@@ -19,8 +19,8 @@ class PDF:
         lab_1 = Label(self.frame_main, text="Report: Test")
 
         #PDF
-        v1 = pdf.ShowPdf()
-        v2 = v1.pdf_view(self.frame_main, pdf_location = r"test.pdf",width = 70, height = 50)
+        self.v1 = pdf.ShowPdf()
+        self.v2 = self.v1.pdf_view(self.frame_main, pdf_location = r"test.pdf",width = 70, height = 50)
 
         #Button
         '''
@@ -40,12 +40,18 @@ class PDF:
         .grid(row, column, columnspan)
         '''
         #Row 0-1 (Input fields)
-        v2.pack()
+        self.v2.pack()
         #Row 2
         but_quit.pack()
         #End
         self.frame_main.pack()
-            
+
+    def reset_view(self):
+        # https://stackoverflow.com/questions/68753733/tkinter-skip-through-pdfs-in-gui
+        # Destroys the old frame
+        self.v1.frame.destroy()
+        # Clear the image list (removes the concatenation of the two pdfs)
+        self.v1.img_object_li.clear()
 
 #====================( Main )====================
 if __name__=='__main__':

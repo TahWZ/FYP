@@ -1,15 +1,15 @@
 AUC
 Model name,Complement Naive Bayes
-CM1.arff.txt (All),0.634
+CM1.arff.txt (All),0.577
 
 F1 Score
 Model name,Complement Naive Bayes
-CM1.arff.txt (All),0.296
+CM1.arff.txt (All),0.27
 
 False Positive Rate
 Model name,Complement Naive Bayes
-CM1.arff.txt (All),0.415
+CM1.arff.txt (All),0.425
 
 False Negative Rate
 Model name,Complement Naive Bayes
-CM1.arff.txt (All),0.3
+CM1.arff.txt (All),0.35
