@@ -127,7 +127,7 @@ class Result():
             error_msg = "The " + str(ds_number+1) + ord_ind + " dataset has less features than the number of features to be reduced"
         #Error type 3: Unknown error
         elif error_type == 3:
-            error_msg = "An unknown error occured when processing the " + str(ds_number+1) + ord_ind + " dataset, the error message is as followed: " + error_msg
+            error_msg = "An unknown error occured when processing the " + str(ds_number+1) + ord_ind + " dataset, the error message is as followed: " + str(error_msg)
         messagebox.showerror("An error occured",error_msg)
         return False
 
