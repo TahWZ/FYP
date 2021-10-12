@@ -1,15 +1,59 @@
 AUC
-Model name,Complement Naive Bayes
-CM1.arff.txt (All),0.577
+Model name,Complement Naive Bayes,Decision Tree,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
+MC2.arff.txt (All),0.458,0.534,0.607,0.384,0.389,0.442,0.464,0.475
+MC2.arff.txt (CFS),0.84,0.742,0.856,0.876,0.779,0.86,0.768,0.848
+MC2.arff.txt (RFE),0.82,0.621,0.844,0.88,0.806,0.766,0.676,0.813
+MW1.arff.txt (All),0.442,0.536,0.558,0.286,0.475,0.551,0.63,0.522
+MW1.arff.txt (CFS),0.174,0.522,0.594,0.435,0.732,0.572,0.656,0.674
+MW1.arff.txt (RFE),0.819,0.659,0.833,0.605,0.565,0.616,0.5,0.71
+PC1.arff.txt (All),0.605,0.736,0.81,0.483,0.768,0.844,0.818,0.836
+PC1.arff.txt (CFS),0.746,0.743,0.821,0.78,0.829,0.849,0.797,0.831
+PC1.arff.txt (RFE),0.597,0.741,0.738,0.784,0.752,0.769,0.773,0.785
+PC2.arff.txt (All),0.68,0.632,0.866,0.341,0.874,0.881,0.795,0.895
+PC2.arff.txt (CFS),0.907,0.719,0.91,0.863,0.92,0.849,0.735,0.904
+PC2.arff.txt (RFE),0.86,0.807,0.921,0.52,0.898,0.965,0.642,0.915
 
 F1 Score
-Model name,Complement Naive Bayes
-CM1.arff.txt (All),0.27
+Model name,Complement Naive Bayes,Decision Tree,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
+MC2.arff.txt (All),0.291,0.375,0.463,0.283,0.229,0.312,0.207,0.282
+MC2.arff.txt (CFS),0.621,0.65,0.657,0.715,0.619,0.631,0.686,0.662
+MC2.arff.txt (RFE),0.631,0.534,0.683,0.683,0.586,0.574,0.585,0.644
+MW1.arff.txt (All),0.033,0.075,0.072,0.0,0.037,0.078,0.151,0.07
+MW1.arff.txt (CFS),0.0,0.067,0.083,0.083,0.089,0.083,0.067,0.067
+MW1.arff.txt (RFE),0.165,0.145,0.056,0.037,0.194,0.194,0.042,0.067
+PC1.arff.txt (All),0.112,0.191,0.244,0.03,0.183,0.273,0.236,0.245
+PC1.arff.txt (CFS),0.173,0.24,0.227,0.228,0.228,0.275,0.284,0.256
+PC1.arff.txt (RFE),0.116,0.192,0.099,0.175,0.185,0.234,0.218,0.218
+PC2.arff.txt (All),0.062,0.097,0.245,0.0,0.111,0.067,0.156,0.212
+PC2.arff.txt (CFS),0.147,0.17,0.278,0.317,0.2,0.194,0.2,0.289
+PC2.arff.txt (RFE),0.125,0.261,0.389,0.333,0.143,0.278,0.0,0.261
 
 False Positive Rate
-Model name,Complement Naive Bayes
-CM1.arff.txt (All),0.425
+Model name,Complement Naive Bayes,Decision Tree,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
+MC2.arff.txt (All),0.367,0.323,0.543,0.338,0.492,0.487,0.478,0.473
+MC2.arff.txt (CFS),0.58,0.407,0.38,0.332,0.577,0.405,0.43,0.498
+MC2.arff.txt (RFE),0.553,0.59,0.38,0.38,0.6,0.497,0.473,0.473
+MW1.arff.txt (All),0.442,0.26,0.262,0.078,0.303,0.24,0.182,0.26
+MW1.arff.txt (CFS),0.515,0.123,0.065,0.045,0.23,0.05,0.1,0.1
+MW1.arff.txt (RFE),0.353,0.182,0.087,0.173,0.063,0.05,0.117,0.058
+PC1.arff.txt (All),0.28,0.307,0.28,0.067,0.4,0.257,0.3,0.3
+PC1.arff.txt (CFS),0.373,0.263,0.237,0.207,0.32,0.227,0.23,0.28
+PC1.arff.txt (RFE),0.29,0.253,0.073,0.19,0.237,0.193,0.217,0.157
+PC2.arff.txt (All),0.267,0.072,0.072,0.015,0.233,0.042,0.067,0.105
+PC2.arff.txt (CFS),0.213,0.058,0.035,0.038,0.122,0.025,0.033,0.048
+PC2.arff.txt (RFE),0.203,0.053,0.025,0.003,0.083,0.018,0.023,0.04
 
 False Negative Rate
-Model name,Complement Naive Bayes
-CM1.arff.txt (All),0.35
+Model name,Complement Naive Bayes,Decision Tree,Logistic regression,Multi Layer Perceptron,Naive Bayes,Random Forest,Rotation Forest,Voting
+MC2.arff.txt (All),0.668,0.612,0.335,0.612,0.723,0.612,0.723,0.667
+MC2.arff.txt (CFS),0.0,0.11,0.11,0.055,0.0,0.165,0.055,0.0
+MC2.arff.txt (RFE),0.0,0.165,0.055,0.055,0.055,0.165,0.165,0.055
+MW1.arff.txt (All),0.833,0.667,0.667,1.0,0.833,0.667,0.5,0.667
+MW1.arff.txt (CFS),1.0,0.833,0.833,0.833,0.667,0.833,0.833,0.833
+MW1.arff.txt (RFE),0.167,0.5,0.833,0.833,0.667,0.667,0.833,0.833
+PC1.arff.txt (All),0.64,0.222,0.167,0.833,0.193,0.11,0.11,0.11
+PC1.arff.txt (CFS),0.222,0.25,0.362,0.36,0.11,0.167,0.167,0.11
+PC1.arff.txt (RFE),0.585,0.36,0.805,0.528,0.47,0.36,0.36,0.527
+PC2.arff.txt (All),0.5,0.667,0.333,1.0,0.167,0.833,0.5,0.333
+PC2.arff.txt (CFS),0.0,0.5,0.5,0.5,0.167,0.667,0.5,0.333
+PC2.arff.txt (RFE),0.167,0.333,0.5,0.667,0.5,0.667,1.0,0.5

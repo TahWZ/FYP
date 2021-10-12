@@ -1,8 +1,8 @@
-import numpy as np
-import pandas as pd
-from scipy.io import arff
-from matplotlib import pyplot as plt
-from sklearn.metrics import roc_curve, roc_auc_score
+# import numpy as np
+# import pandas as pd
+# from scipy.io import arff
+# from matplotlib import pyplot as plt
+from sklearn.metrics import roc_auc_score #, roc_curve 
 
 def auc_roc_model(model,X_test,y_test):
     try:

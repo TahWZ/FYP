@@ -1,4 +1,4 @@
-import sys
+#import sys
 from tkinter import *
 import webbrowser
 from PIL import ImageTk, Image

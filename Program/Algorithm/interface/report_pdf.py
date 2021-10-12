@@ -1,4 +1,4 @@
-import sys
+#import sys
 from tkinter import *
 from tkPDFViewer import tkPDFViewer as pdf
 #from home_train import HomeTrain

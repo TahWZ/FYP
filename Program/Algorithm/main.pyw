@@ -1,4 +1,4 @@
-import sys
+# import sys
 from tkinter import *
 from interface.home import Home
 from interface.about import About

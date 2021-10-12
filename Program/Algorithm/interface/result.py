@@ -134,7 +134,7 @@ class Result():
 
     def run_csv(self):
         self.csv_filename = self.train_res['pfn']
-        main_program.run(self.filenames,self.csv_filename,self.results,self.model_name,self.pp_names)
+        main_program.csv_writer(self.filenames,self.csv_filename,self.results,self.model_name,self.pp_names)
 
     def create_table_headers(self,name,row_num):
         entry = Entry(self.frame_table, bg='light gray')

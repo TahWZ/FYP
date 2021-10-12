@@ -1,7 +1,7 @@
-import numpy as np
-import pandas as pd
-from scipy.io import arff
-from sklearn.metrics import confusion_matrix
+# import numpy as np
+# import pandas as pd
+# from scipy.io import arff
+# from sklearn.metrics import confusion_matrix
 from sklearn.metrics import f1_score
 
 def f1_model(model,X_test,y_test):

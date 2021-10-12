@@ -1,11 +1,11 @@
-from collections import Counter
-from scipy.io import arff
-from sklearn.model_selection import train_test_split as ts
+# from collections import Counter
+# from scipy.io import arff
+# from sklearn.model_selection import train_test_split as ts
 from sklearn.model_selection import KFold
 from sklearn.model_selection import StratifiedKFold
 from imblearn.under_sampling import InstanceHardnessThreshold
 import numpy as np
-import pandas as pd
+# import pandas as pd
 
 def Normalize(data):
     i_size = len(data) #The initial size of the data

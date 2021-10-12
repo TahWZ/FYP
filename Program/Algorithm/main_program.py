@@ -1,15 +1,14 @@
 import csv
-import sys
 import numpy as np
 import pandas as pd
 from scipy.io import arff
 from sklearn.model_selection import train_test_split
-from sklearn import metrics
 import math
-#import jupyter_import # Allows jupyter notebook to be imported
 import warnings # Suppress Warnings
 warnings.filterwarnings('ignore')
+#Import data preprocessing techniques
 from data_preproc.Preprocess import preprocess, Normalize
+#Import models
 from pred_mdls.base.Complement_Naive_Bayes import complement_naive_bayes_model
 from pred_mdls.base.Decision_Tree import decision_tree_model
 from pred_mdls.base.Logistic_Regression import logistic_regression_model
@@ -18,16 +17,19 @@ from pred_mdls.base.Naive_Bayes import naive_bayes_model
 from pred_mdls.ensemble.Random_Forest import random_forest_model
 from pred_mdls.ensemble.Rotation_Forest import rotation_forest_model
 from pred_mdls.ensemble.Voting import voting_model
+#Import feature selection techniques
+from data_preproc.fs_tech.CFS import cfs_algo
+from data_preproc.fs_tech.RFE import rfe_algo
+#Import model evaluation methods
+from pf_eval.Confusion_Matrix import confusion_matrix_model
 from pf_eval.AUC_ROC import auc_roc_model
 from pf_eval.F1_Score import f1_model
-from pf_eval.CSV import write_results
-from data_preproc.CFS import cfs_algo
-from data_preproc.RFE import rfe_algo
-from data_preproc.RR import ridge_algo
-from pf_eval.Confusion_Matrix import confusion_matrix_model
 
 def data_conversion(data):
-    for i in range(len(data)):
+    """
+    Converts the string labels in arff files to appropriate integer values
+    """
+    for i in range(len(data)): #
         if data[i] == b'N' or data[i] == b'false' or data[i] == b'no':
             data[i] = 0
         else:
@@ -35,21 +37,28 @@ def data_conversion(data):
     return data
 
 def read_data(filename):
+    """
+    Read the data from arff files, then converting the array into a
+    Pandas Dataframe
+    """
     data = arff.loadarff(filename)
     loaddata = pd.DataFrame(data[0])
     return loaddata
 
-def process_data(loaddata,features):
-    # Features are selected based on CFS
-    software_metrics = np.array(loaddata[features])
-    labels = np.array(loaddata['Defective'])
-    return software_metrics,labels
+# def process_data(loaddata,features):
+#     """
+#     Read the data from arff files, then converting the array into a
+#     Pandas Dataframe
+#     """
+#     software_metrics = np.array(loaddata[features])
+#     labels = np.array(loaddata['Defective'])
+#     return software_metrics,labels
 
-def train_data(software_metrics,labels):
-    X_train, X_test, y_train, y_test = train_test_split(software_metrics, labels, test_size = 0.1)
-    y_train = y_train.astype('str')
-    y_test = y_test.astype('str')
-    return X_train, X_test, y_train, y_test
+# def train_data(software_metrics,labels):
+#     X_train, X_test, y_train, y_test = train_test_split(software_metrics, labels, test_size = 0.1)
+#     y_train = y_train.astype('str')
+#     y_test = y_test.astype('str')
+#     return X_train, X_test, y_train, y_test
 
 def evaluate_data(model,X_test,y_test):
     auc_score = auc_roc_model(model,X_test,y_test)
@@ -57,28 +66,28 @@ def evaluate_data(model,X_test,y_test):
     fpr,fnr = confusion_matrix_model(model,X_test,y_test)
     return auc_score,f1_score,fpr,fnr
 
-def translate(result):
-    count = 1
-    res = []
-    while count <= 3:
-        for i in range(len(result[0])):
-            res.append([result[0][i], result[1][((i+1)*count)-1],result[2][((i+1)*count)-1]])
-        count += 1
-    return res
+# def translate(result):
+#     count = 1
+#     res = []
+#     while count <= 3:
+#         for i in range(len(result[0])):
+#             res.append([result[0][i], result[1][((i+1)*count)-1],result[2][((i+1)*count)-1]])
+#         count += 1
+#     return res
 
-def main_writer(header,result):
-    #Writes the output of a single dataset for main function
-    filters = ['No filter','CFS','RFE']
-    with open('pred_results.csv','w',encoding='UTF8', newline='') as file:
-        res = csv.writer(file)
-        for i in range(len(filters)):
-            res.writerow('')
-            res.writerow([filters[i]])
-            res.writerow(header)
-            res.writerow([result[0][0]] + result[0][1][i*8:i*8+8])
-            res.writerow([result[1][0]] + result[1][1][i*8:i*8+8])
+# def main_writer(header,result):
+#     #Writes the output of a single dataset for main function
+#     filters = ['No filter','CFS','RFE']
+#     with open('pred_results.csv','w',encoding='UTF8', newline='') as file:
+#         res = csv.writer(file)
+#         for i in range(len(filters)):
+#             res.writerow('')
+#             res.writerow([filters[i]])
+#             res.writerow(header)
+#             res.writerow([result[0][0]] + result[0][1][i*8:i*8+8])
+#             res.writerow([result[1][0]] + result[1][1][i*8:i*8+8])
     
-def run(datasets, savename, results, model_name, pp_name):
+def csv_writer(datasets, savename, results, model_name, pp_name):
     #Writes the output of multiple datasets for the main function
     header = ['Model name'] + model_name
     n = len(model_name)
@@ -201,11 +210,11 @@ def main_algo_run(filename,fs_res,pred_res,train_res):
     result.append(('False Negative Rate', fnr_arr))
     return model_name,pp_name,result
       
-if __name__=='__main__':
-    N_filenames = ['CM1.arff','JM1.arff','KC1.arff','KC3.arff',
-                   'KC4.arff','MC1.arff','MC2.arff','MW1.arff',
-                   'PC1.arff','PC2.arff','PC3.arff','PC4.arff','PC5.arff']
-    P_filenames = ['cm1.arff','jm1.arff','kc1.arff','kc2.arff','pc1.arff']
-    #========== Running main program =========#
-    result, header = main_algo_run('datasets/NASA/CM1.arff.txt')
-    main_writer(header,result)
+# if __name__=='__main__':
+#     N_filenames = ['CM1.arff','JM1.arff','KC1.arff','KC3.arff',
+#                    'KC4.arff','MC1.arff','MC2.arff','MW1.arff',
+#                    'PC1.arff','PC2.arff','PC3.arff','PC4.arff','PC5.arff']
+#     P_filenames = ['cm1.arff','jm1.arff','kc1.arff','kc2.arff','pc1.arff']
+#     #========== Running main program =========#
+#     result, header = main_algo_run('datasets/NASA/CM1.arff.txt')
+#     main_writer(header,result)
