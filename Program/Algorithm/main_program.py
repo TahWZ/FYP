@@ -2,7 +2,6 @@ import csv
 import numpy as np
 import pandas as pd
 from scipy.io import arff
-from sklearn.model_selection import train_test_split
 import math
 import warnings # Suppress Warnings
 warnings.filterwarnings('ignore')
@@ -29,7 +28,7 @@ def data_conversion(data):
     """
     Converts the string labels in arff files to appropriate integer values
     """
-    for i in range(len(data)): #
+    for i in range(len(data)): #For each row in the dataset
         if data[i] == b'N' or data[i] == b'false' or data[i] == b'no':
             data[i] = 0
         else:
@@ -45,90 +44,84 @@ def read_data(filename):
     loaddata = pd.DataFrame(data[0])
     return loaddata
 
-# def process_data(loaddata,features):
-#     """
-#     Read the data from arff files, then converting the array into a
-#     Pandas Dataframe
-#     """
-#     software_metrics = np.array(loaddata[features])
-#     labels = np.array(loaddata['Defective'])
-#     return software_metrics,labels
-
-# def train_data(software_metrics,labels):
-#     X_train, X_test, y_train, y_test = train_test_split(software_metrics, labels, test_size = 0.1)
-#     y_train = y_train.astype('str')
-#     y_test = y_test.astype('str')
-#     return X_train, X_test, y_train, y_test
-
 def evaluate_data(model,X_test,y_test):
+    """
+    Evaluates a given model using evulations functions which returns
+    the score of the following evaluation metrics:
+    1. AUC
+    2. F1-Score
+    3. False Positive Rate
+    4. False Negative Rate
+    """
     auc_score = auc_roc_model(model,X_test,y_test)
     f1_score = f1_model(model,X_test,y_test)
     fpr,fnr = confusion_matrix_model(model,X_test,y_test)
     return auc_score,f1_score,fpr,fnr
-
-# def translate(result):
-#     count = 1
-#     res = []
-#     while count <= 3:
-#         for i in range(len(result[0])):
-#             res.append([result[0][i], result[1][((i+1)*count)-1],result[2][((i+1)*count)-1]])
-#         count += 1
-#     return res
-
-# def main_writer(header,result):
-#     #Writes the output of a single dataset for main function
-#     filters = ['No filter','CFS','RFE']
-#     with open('pred_results.csv','w',encoding='UTF8', newline='') as file:
-#         res = csv.writer(file)
-#         for i in range(len(filters)):
-#             res.writerow('')
-#             res.writerow([filters[i]])
-#             res.writerow(header)
-#             res.writerow([result[0][0]] + result[0][1][i*8:i*8+8])
-#             res.writerow([result[1][0]] + result[1][1][i*8:i*8+8])
     
 def csv_writer(datasets, savename, results, model_name, pp_name):
-    #Writes the output of multiple datasets for the main function
+    """
+    Creates/Modify csv file which contains the results of the program
+    """
     header = ['Model name'] + model_name
     n = len(model_name)
     with open('csv_results/' + savename + '.csv','w',encoding='UTF8', newline='') as csv_file:
         res = csv.writer(csv_file)
         for k in range(len(results[0])):
-            # AUC, F1, FPR, FNR
+            # Adds label, indicating result type (AUC, F1, FPR, FNR)
             res.writerow([results[0][k][0]])
-            # Model Name
+            # Adds legend, containing the model names
             res.writerow(header)
+            # For each dataset
             for j in range(len(results)):
                 col_num = 0
-                for i in range(len(pp_name[j])):
+                # For each model
+                for i in range(len(pp_name[j])): 
+                    # Add performance result of model for the current dataset
                     res.writerow([f'{datasets[j]} ({pp_name[j][i]})'] + results[j][k][1][col_num:col_num+n])
                     col_num += n
+            # Adds row skip between result types
             if k != len(results[0])-1:
                 res.writerow('')
 
 def feature_selection(fs_res,loaddata,data,train_size,k_fold):
+    """
+    Performs the required feature selection methods based on the first parameter
+    """
+    # The result array
     pp_arr = []
+    # The feature selection methods (CFS, RFE)
     feature_funcs = [cfs_algo,rfe_algo]
+    # Check if the dataset with all its metrics is required
     if fs_res[0]:
         try:
+            # Adds the preprocessed dataset, with no feature selection method performed
             pp_arr.append(preprocess(loaddata,k_fold))
         except:
             return False, 1
+    # Checks which feature selection methods to perform
     for i in range(1,len(fs_res)):
         if fs_res[i]:
-            try:
+            # Performs the required feature selection
+            try: # Error handling (Invalid train size)
                 _,f_selection = feature_funcs[i-1](data,train_size)
             except:
                 return False, 2
-            try:
+            # Preprocesses the dataset
+            try: # Error handling (Reduced dataset not suited for k-fold value set)
                 pp_arr.append(preprocess(loaddata,k_fold,f_selection))
             except:
                 return False, 1
     return pp_arr
 
 def model_creation(base_preds,ensemble_preds,data):
+    """
+    Builds the required prediction models using training data provided.
+    Models built are based on the user selections.
+    """
     models = []
+    # Hyperparameter for the tree models
     args = [108]
+    # The base prediction models
     base_funcs = [
         complement_naive_bayes_model,
         decision_tree_model,
@@ -136,19 +129,29 @@ def model_creation(base_preds,ensemble_preds,data):
         multi_layer_perceptron_model,
         naive_bayes_model 
     ]
+    # The ensemble prediction models
     ensemble_funcs = [
         random_forest_model,
         rotation_forest_model,
         voting_model
     ]
+    # Checks the user selections and builds the required base models
     for index in base_preds:
         models.append(base_funcs[index](data))
+    # Checks the user selections and builds the required ensemble models
     for index in ensemble_preds:
         models.append(ensemble_funcs[index](data,args))
     return models
 
 def main_algo_run(filename,fs_res,pred_res,train_res):
-    # Read the file
+    """
+    Main algorithm, utilizes various functions within the system to performs the following processes(ordered):
+    1. Retrieve the user selections for prediction models, training settings and feature selection methods
+    2. Perform required feature selection and preprocesses
+    3. Builds required prediction models
+    4. Evaluate performance of models
+    5. Return results
+    """
     try:
         loaddata = read_data(filename)
         loaddata = Normalize(loaddata)
@@ -209,12 +212,4 @@ def main_algo_run(filename,fs_res,pred_res,train_res):
     result.append(('False Positive Rate', fpr_arr))
     result.append(('False Negative Rate', fnr_arr))
     return model_name,pp_name,result
-      
-# if __name__=='__main__':
-#     N_filenames = ['CM1.arff','JM1.arff','KC1.arff','KC3.arff',
-#                    'KC4.arff','MC1.arff','MC2.arff','MW1.arff',
-#                    'PC1.arff','PC2.arff','PC3.arff','PC4.arff','PC5.arff']
-#     P_filenames = ['cm1.arff','jm1.arff','kc1.arff','kc2.arff','pc1.arff']
-#     #========== Running main program =========#
-#     result, header = main_algo_run('datasets/NASA/CM1.arff.txt')
-#     main_writer(header,result)
+
