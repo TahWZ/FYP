@@ -7,7 +7,7 @@ from interface.report_pdf import PDF
 #from PIL import ImageTK, Image
 
 #====================( Users )====================
-users = [['hi','hi']]
+#users = [['hi','hi']]
 
 #====================( Class )====================
 class Report:
@@ -29,8 +29,8 @@ class Report:
         pady: Performs padding on y-axis (*.px)
         command: Function to execute
         '''
-        but_view1 = Button(self.frame_main, text="View", width = 10, command=lambda: self.view())
-        but_view2 = Button(self.frame_main, text="View", width = 10, command=lambda: self.view())
+        but_view1 = Button(self.frame_main, text="View", width = 10, command=lambda: self.view(r"\test.pdf"))
+        but_view2 = Button(self.frame_main, text="View", width = 10, command=lambda: self.view(r"\test.pdf"))
         self.pdf = None
         #====================( Display )====================
         '''
@@ -46,19 +46,19 @@ class Report:
         #End
         self.frame_main.pack()
 
-    def create_view(self):
+    def create_view(self, filename):
         self.view_ = Frame(self.frame_main)
-        self.pdf = PDF(self.view_)
+        self.pdf = PDF(self.view_, filename)
         self.view_.grid(row=3, column= 1, columnspan = 2)
 
-    def view(self):
+    def view(self, filename):
         # If there is no exisiting pdf (create a new frame)
         if self.pdf is None:
-            self.create_view()
+            self.create_view(filename)
         else:
             # Resets the pdf view if there is an exisiting pdf
             self.pdf.reset_view()
-            self.create_view()
+            self.create_view(filename)
             
 
 #====================( Main )====================

@@ -1,4 +1,5 @@
 #import sys
+import os
 from tkinter import *
 from tkPDFViewer import tkPDFViewer as pdf
 #from home_train import HomeTrain
@@ -6,12 +7,14 @@ from tkPDFViewer import tkPDFViewer as pdf
 #from PIL import ImageTK, Image
 
 #====================( Users )====================
-users = [['hi','hi']]
+#users = [['hi','hi']]
 
 #====================( Class )====================
 class PDF:
     #====================( Functions )====================
-    def __init__(self, root):
+    def __init__(self, root, filename):
+        # Parent directory of current file
+        path = os.path.abspath(os.path.join(os.path.dirname(__file__),"reports"))
         #====================( Frames )====================
         self.frame_main = LabelFrame(root, text="Report view", padx = 10, pady = 10)
         #====================( Widgets )====================
@@ -20,7 +23,7 @@ class PDF:
 
         #PDF
         self.v1 = pdf.ShowPdf()
-        self.v2 = self.v1.pdf_view(self.frame_main, pdf_location = r"test.pdf",width = 70, height = 50)
+        self.v2 = self.v1.pdf_view(self.frame_main, pdf_location = path+ filename,width = 70, height = 50)
 
         #Button
         '''
