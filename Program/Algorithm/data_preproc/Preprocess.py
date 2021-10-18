@@ -8,6 +8,9 @@ import numpy as np
 # import pandas as pd
 
 def Normalize(data):
+    """
+    Normalizes the dataset
+    """
     i_size = len(data) #The initial size of the data
     #Remove missing values
     r_data = data.dropna()
@@ -22,16 +25,25 @@ def Normalize(data):
     return result
 
 def K_fold(data,f=5):
+    """
+    Performs k-fold cross validation
+    """
     kf = KFold(n_splits=f)
     tt_splits = kf.split(data)
     return tt_splits
 
 def Stratifid_K_fold(X,y,f=5):
+    """
+    Performs stratisfied k-fold cross validation
+    """
     skf = StratifiedKFold(n_splits=f)
     tt_splits = skf.split(X,y)
     return tt_splits
 
 def IHT(data,k_fold): 
+    """
+    Performs instance hardness threshold undersampling
+    """
     while k_fold >= 2:
         try:
             gauss_iht = InstanceHardnessThreshold(cv=k_fold)
@@ -42,6 +54,9 @@ def IHT(data,k_fold):
     return data[0],data[1]
 
 def data_conversion(data):
+    """
+    Convert data labels to appropriate values
+    """
     for i in range(len(data)):
         if data[i] == b'N' or data[i] == b'false' or data[i] == b'no':
             data[i] = 0
@@ -50,31 +65,16 @@ def data_conversion(data):
     return data
 
 def preprocess(data, k_fold, fs = []):
+    """
+    Performs the main preprocessing techniques to a given dataset
+    """
     SM = np.array(data.iloc[:,:-1]) #Software metrics
     if len(fs) != 0:
         SM = SM[:,fs]
     L = data_conversion(np.array(data.iloc[:,-1])).astype(int) #Labels
     tt_splits = Stratifid_K_fold(SM,L,k_fold)
-    # classes = {
-    #     '0':0,
-    #     '1':0 
-    # }
-    # percentage = {
-    #     '0':f'0%',
-    #     '1':f'0%'
-    # }
-    # for c in L:
-    #     classes[str(c)] += 1
-    #     percentage[str(c)] = f'{round((classes[str(c)]/len(L))*100,2)}%'
-    # print(f'Classes: {classes}')
-    # print(f'Percentage: {percentage}')
-    #IHT
     result = []
     for train, test in tt_splits:
-        # print(f'Train: {train} Train Shape: {train.shape}')
-        # print(f'Test: {test} Test Shape: {test.shape}\n')
-        # print(f'SM[train]: {SM[train]}')
-        # print(f'L[train]: {L[train]}')
         SM_under, L_under = IHT([SM[train],L[train]],k_fold)
         result.append([SM_under, SM[test], L_under, L[test]])
     return result

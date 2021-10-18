@@ -10,6 +10,9 @@ import numpy as np
 
 #==== Functions ====#
 def rotation_forest_model(data, args=None):
+    """
+    Rotation forest ensemble model
+    """
     forest = RFC()
     forest.fit(data[0],data[1])
     return forest

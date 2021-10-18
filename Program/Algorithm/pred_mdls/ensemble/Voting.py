@@ -13,6 +13,9 @@ from sklearn.ensemble import RandomForestClassifier
 
 #==== Functions ====#
 def voting_model(data, args=[1000]):
+    """
+    Voting ensemble model which combines the predictions from multiple models (LR, RF, NB)
+    """
     logistic_regression = LogisticRegression(solver = 'lbfgs',max_iter=10000000000)
     random_forest = RandomForestClassifier(n_estimators = args[0])
     naive_bayes = GaussianNB()
@@ -23,7 +26,7 @@ def voting_model(data, args=[1000]):
     voting = VotingClassifier(estimators = [(labels[0],logistic_regression),
                                         (labels[1],random_forest),
                                         (labels[2],naive_bayes)],
-                              voting='soft')
+                              voting='soft') #Soft voting
 
     voting.fit(data[0],data[1])
     return voting

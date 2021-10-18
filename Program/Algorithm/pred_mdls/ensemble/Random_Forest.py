@@ -10,12 +10,7 @@ import numpy as np
 #==== Functions ====#
 def random_forest_model(data, args=[108]):
     '''
-    Arguments:
-    1. Data
-    2. List of arguments for model (Number of Estimators)
-    
-    Output:
-    2. Model
+    Random forest ensemble model
     '''
     rf = RandomForestClassifier(n_estimators = args[0])
     rf.fit(data[0], data[1])

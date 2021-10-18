@@ -182,11 +182,11 @@ def main_algo_run(filename,fs_res,pred_res,train_res):
     fnr_arr = [0]*arr_size
     header = []
     folds = k_fold
-    for j,pp in enumerate(pp_arr):
+    for j,pp in enumerate(pp_arr): #For each preprocessed dataset
         for i in range(folds):
             data = [pp[i][0],pp[i][2]]
             models = model_creation(base_preds,ensemble_preds,data)
-            for k in range(len(models)):
+            for k in range(len(models)): #For every model selected
                 auc_score,f1_score,fpr,fnr = evaluate_data(models[k],pp[i][1],pp[i][3])
                 if math.isnan(auc_score):
                     auc_score = 0
@@ -195,7 +195,7 @@ def main_algo_run(filename,fs_res,pred_res,train_res):
                 fpr_arr[(j*len(model_name))+k] += fpr
                 fnr_arr[(j*len(model_name))+k] += fnr
 
-    for i in range(len(auc_arr)):
+    for i in range(len(auc_arr)): #Retrieves the average scores between each folds
         auc_arr[i] /= folds
         auc_arr[i] = round(auc_arr[i],3)
         f1_arr[i] /= folds
@@ -205,7 +205,7 @@ def main_algo_run(filename,fs_res,pred_res,train_res):
         fnr_arr[i] /= folds
         fnr_arr[i] = round(fnr_arr[i],3)
     header.append('Model Name')
-    for i in model_name:
+    for i in model_name: #Apped header with models used
         header.append(i[0]) 
     result.append(('AUC', auc_arr))
     result.append(('F1 Score', f1_arr))
