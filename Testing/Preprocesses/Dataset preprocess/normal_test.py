@@ -2,7 +2,7 @@ import sys
 import unittest
 import warnings # Suppress Warnings
 sys.path.append("../../../Program/Algorithm/data_preproc") #Adds directory containing Normalization function
-from Normalization import Normalize
+from pp_tech.Normalization import Normalize
 #========== For tests setup ==========
 from scipy.io import arff
 import pandas as pd

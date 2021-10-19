@@ -59,7 +59,6 @@ class nb_test(unittest.TestCase):
         nb = naive_bayes_model(dummy[0])
         prediction = nb.predict(dummy[2])
         res = metrics.accuracy_score(dummy[3], prediction)
-        print(res)
         self.assertTrue(res >= 0.75)
 
 #====================( Main )====================

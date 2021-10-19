@@ -2,8 +2,8 @@ import sys
 import unittest
 sys.path.append("../../../Program/Algorithm/data_preproc")
 from Preprocess import Normalize,K_fold,Stratifid_K_fold,IHT,data_conversion,preprocess
-from CFS import cfs_algo
-from RFE import rfe_algo
+from fs_tech.CFS import cfs_algo
+from fs_tech.RFE import rfe_algo
 #========== For tests setup ==========
 from scipy.io import arff
 from sklearn.model_selection import train_test_split as ts

@@ -59,7 +59,6 @@ class mlp_test(unittest.TestCase):
         mlp = multi_layer_perceptron_model(dummy[0])
         prediction = mlp.predict(dummy[2])
         res = metrics.accuracy_score(dummy[3], prediction)
-        print(res)
         self.assertTrue(res >= 0.75)
 
 #====================( Main )====================
