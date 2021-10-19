@@ -1,35 +1,15 @@
 AUC
-Model name,Decision Tree
-MC2.arff.txt (All),0.562
-MC2.arff.txt (CFS),0.707
-MC2.arff.txt (RFE),0.671
-MW1.arff.txt (CFS),0.464
-PC1.arff.txt (All),0.773
-PC2.arff.txt (RFE),0.617
+Model name,Complement Naive Bayes
+CM1.arff.txt (All),0.575
 
 F1 Score
-Model name,Decision Tree
-MC2.arff.txt (All),0.398
-MC2.arff.txt (CFS),0.6
-MC2.arff.txt (RFE),0.577
-MW1.arff.txt (CFS),0.071
-PC1.arff.txt (All),0.243
-PC2.arff.txt (RFE),0.19
+Model name,Complement Naive Bayes
+CM1.arff.txt (All),0.237
 
 False Positive Rate
-Model name,Decision Tree
-MC2.arff.txt (All),0.4
-MC2.arff.txt (CFS),0.419
-MC2.arff.txt (RFE),0.516
-MW1.arff.txt (CFS),0.096
-PC1.arff.txt (All),0.264
-PC2.arff.txt (RFE),0.063
+Model name,Complement Naive Bayes
+CM1.arff.txt (All),0.45
 
 False Negative Rate
-Model name,Decision Tree
-MC2.arff.txt (All),0.476
-MC2.arff.txt (CFS),0.166
-MC2.arff.txt (RFE),0.141
-MW1.arff.txt (CFS),0.714
-PC1.arff.txt (All),0.19
-PC2.arff.txt (RFE),0.429
+Model name,Complement Naive Bayes
+CM1.arff.txt (All),0.4

@@ -57,8 +57,8 @@ class F1_Test(unittest.TestCase):
         y_test = [0,0,0,0]
 
         # One class present in y_test
-        # with self.assertRaises(ValueError):
-        f1_model(self.model,X_test,y_test)
+        with self.assertRaises(ValueError):
+            f1_model(self.model,X_test,y_test)
 
     def test5(self):
         X_test = [[]]

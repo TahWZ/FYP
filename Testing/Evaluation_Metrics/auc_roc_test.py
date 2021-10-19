@@ -41,7 +41,7 @@ class AUC_Test(unittest.TestCase):
 
         # Passing a 1D array instead of 2D array
         with self.assertRaises(ValueError):
-            auc_roc_model(self.model,X_test,y_test)
+            auc_roc_model(self.model,X_test,y_test,test=True)
 
     def test3(self):
         X_test = [[1,2,3,4]]
@@ -49,7 +49,7 @@ class AUC_Test(unittest.TestCase):
 
         # Inconsistent number of samples
         with self.assertRaises(ValueError):
-            auc_roc_model(self.model,X_test,y_test)
+            auc_roc_model(self.model,X_test,y_test,test=True)
 
     def test4(self):
         X_test = [[0,0,0,0]]
@@ -57,7 +57,7 @@ class AUC_Test(unittest.TestCase):
 
         # One class present in y_test
         with self.assertRaises(ValueError):
-            auc_roc_model(self.model,X_test,y_test)
+            auc_roc_model(self.model,X_test,y_test,test=True)
 
     def test5(self):
         X_test = [[]]
@@ -65,7 +65,7 @@ class AUC_Test(unittest.TestCase):
 
         # Empty test set
         with self.assertRaises(ValueError):
-            auc_roc_model(self.model,X_test,y_test)
+            auc_roc_model(self.model,X_test,y_test,test=True)
 
 if __name__ == '__main__':
     unittest.main()
