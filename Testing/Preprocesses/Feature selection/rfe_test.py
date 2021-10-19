@@ -1,14 +1,14 @@
 import sys
 import unittest
 sys.path.append("../../../Program/Algorithm/data_preproc")
-from CFS import cfs_algo
+from fs_tech.RFE import rfe_algo
 #========== For tests setup ==========
 from scipy.io import arff
 from sklearn.model_selection import train_test_split as ts
 import pandas as pd
 import numpy as np
 
-class CFS_Test(unittest.TestCase):
+class RFE_Test(unittest.TestCase):
 
     def setUp(self):
         def data_conversion(data):
@@ -36,7 +36,8 @@ class CFS_Test(unittest.TestCase):
         max_train = 6
         train_size = 6
         offset = max_train - train_size
-        cfs,selections = cfs_algo(self.data1,train_size)
+        rfe,selections = rfe_algo(self.data1,train_size)
+        selections = [True if val else False for val in selections]
         test_selections = [True]*train_size+[False]*offset
         self.assertEqual(selections,test_selections)
 
@@ -45,7 +46,8 @@ class CFS_Test(unittest.TestCase):
         max_train = 6
         train_size = 4
         offset = max_train - train_size
-        cfs,selections = cfs_algo(self.data1,train_size)
+        rfe,selections = rfe_algo(self.data1,train_size)
+        selections = [True if val else False for val in selections]
         test_selections = [True]*train_size+[False]*offset
         self.assertEqual(selections,test_selections)
 
@@ -54,9 +56,8 @@ class CFS_Test(unittest.TestCase):
         max_train = 6
         train_size = 0
         offset = max_train - train_size
-        cfs,selections = cfs_algo(self.data1,train_size)
-        test_selections = [True]*train_size+[False]*offset
-        self.assertEqual(selections,test_selections)
+        with self.assertRaises(ValueError):
+            rfe,selections = rfe_algo(self.data1,train_size)
 
     def test4(self):
         # Test if train size is negative
@@ -64,15 +65,21 @@ class CFS_Test(unittest.TestCase):
         train_size = -1
         offset = max_train - train_size
         with self.assertRaises(ValueError):
-            cfs,selections = cfs_algo(self.data1,train_size)
+            rfe,selections = rfe_algo(self.data1,train_size)
 
     def test5(self):
         # Test if train size is over maximum features
         max_train = 6
         train_size = 7
         offset = max_train - train_size
-        with self.assertRaises(ValueError):
-            cfs,selections = cfs_algo(self.data1,train_size)
+        if offset < 0:
+            offset = 0
+        if train_size > max_train:
+            train_size = max_train
+        rfe,selections = rfe_algo(self.data1,train_size)
+        selections = [True if val else False for val in selections]
+        test_selections = [True]*train_size+[False]*offset
+        self.assertEqual(selections,test_selections)
 
 if __name__ == '__main__':
     unittest.main()

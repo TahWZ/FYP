@@ -1,7 +1,7 @@
 import sys
 import unittest
 sys.path.append("../../../Program/Algorithm/data_preproc") #Adds directory containing jupyter import and module to test
-from Kfold_cross_validation import K_fold
+from pp_tech.K_fold import K_fold
 #========== For tests setup ==========
 from scipy.io import arff
 import pandas as pd

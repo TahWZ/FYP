@@ -2,7 +2,7 @@ import sys
 import unittest
 import warnings # Suppress Warnings
 sys.path.append("../../../Program/Algorithm/data_preproc") #Adds directory containing jupyter import and module to test
-from IHT import iht
+from pp_tech.IHT import iht
 #========== For tests setup ==========
 from scipy.io import arff
 from sklearn.model_selection import train_test_split as ts

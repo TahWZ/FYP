@@ -2,7 +2,7 @@ import sys
 import unittest
 sys.path.append("../../Program/Algorithm") #Adds directory containing jupyter import and module to test
 import warnings # Suppress Warnings
-from main_program import read_data, run, process_data, data_conversion, evaluate_data, run, feature_selection, model_creation, main_algo_run
+from main_program import read_data, csv_writer, data_conversion, evaluate_data, feature_selection, model_creation, main_algo_run
 #========== For tests setup ==========
 from scipy.io import arff
 from pf_eval.AUC_ROC import auc_roc_model
@@ -257,7 +257,7 @@ class main_test_4(unittest.TestCase):
         try:
             evaluate_data(self.test_model, self.test_m, self.test_l)
         except:
-            assert False, "Evaluation method fail to run"
+            assert False, "Evaluation method fail to csv_writer"
 
     def test2(self):
         '''
@@ -469,7 +469,7 @@ class main_test_5(unittest.TestCase):
         }
         try:
             mod_name, pp_name, res = main_algo_run("test3.arff.txt",fs, pred_res ,train_res)
-            run(["Testfile"],"Testsavename",[res],mod_name,[pp_name])
+            csv_writer(["Testfile"],"Testsavename",[res],mod_name,[pp_name])
             #Check the output folder to see if the csv was correctly created
         except:
             assert False, "Main algorithm failed to produce CSV file"

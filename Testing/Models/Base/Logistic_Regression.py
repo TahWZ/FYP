@@ -59,7 +59,6 @@ class lr_test(unittest.TestCase):
         lr = logistic_regression_model(dummy[0])
         prediction = lr.predict(dummy[2])
         res = metrics.accuracy_score(dummy[3], prediction)
-        print(res)
         self.assertTrue(res >= 0.75)
             
 

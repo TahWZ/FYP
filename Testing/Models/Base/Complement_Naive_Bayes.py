@@ -55,7 +55,6 @@ class cnb_test(unittest.TestCase):
         cnb = complement_naive_bayes_model(dummy[0])
         prediction = cnb.predict(dummy[2])
         res = metrics.accuracy_score(dummy[3], prediction)
-        print(res)
         self.assertTrue(res >= 0.35)
 
 #====================( Main )====================

@@ -59,7 +59,6 @@ class dt_test(unittest.TestCase):
         dt = decision_tree_model(dummy[0])
         prediction = dt.predict(dummy[2])
         res = metrics.accuracy_score(dummy[3], prediction)
-        print(res)
         self.assertTrue(res >= 0.75)
 
 #====================( Main )====================
